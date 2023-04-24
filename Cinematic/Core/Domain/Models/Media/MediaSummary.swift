@@ -15,6 +15,10 @@ struct MediaSummary: Identifiable {
     let posterURL: URL?
     let mediaType: MediaType
     
+    var label: String? {
+        title ?? name
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id, title, name
         case backdropURL = "backdrop_path"

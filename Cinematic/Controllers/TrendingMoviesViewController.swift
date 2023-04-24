@@ -9,6 +9,17 @@ import UIKit
 
 class TrendingMoviesViewController: UIViewController {
     
+    // Outlets
+    @IBOutlet private weak var mediaTableView: UITableView!
+    
+    // Properties
+    private var trendingMovies = [MediaSummary]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.mediaTableView.reloadData()
+            }
+        }
+    }
     private let movieService = CinematicMovieService()
 
     override func viewDidLoad() {
@@ -21,8 +32,7 @@ class TrendingMoviesViewController: UIViewController {
     func fetchTrendingMovies() {
         Task {
             do {
-                let trendingMovies = try await movieService.fetchTrendingMovies()
-                print(trendingMovies.count)
+                trendingMovies = try await movieService.fetchTrendingMovies()
             } catch {
                 print(error.localizedDescription)
             }
@@ -39,4 +49,30 @@ class TrendingMoviesViewController: UIViewController {
     }
     */
 
+}
+
+extension TrendingMoviesViewController: UITableViewDataSource, UITableViewDelegate {
+    private var cellName: String {
+        "mediaCell"
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        trendingMovies.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellName, for: indexPath)
+        
+        let media = trendingMovies[indexPath.row]
+        var contentConfig = UIListContentConfiguration.subtitleCell()
+        
+        contentConfig.text = media.label
+        contentConfig.secondaryText = media.mediaType.rawValue
+        
+        cell.contentConfiguration = contentConfig
+        
+        return cell
+    }
+    
+    
 }
