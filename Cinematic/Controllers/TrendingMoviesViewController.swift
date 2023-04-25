@@ -10,7 +10,7 @@ import UIKit
 class TrendingMoviesViewController: UIViewController {
     enum Constants {
         static let searchAndFilterCell = "SearchAndFilterCell"
-        static let mediaSummaryCell = "mediaCell"
+        static let mediaSummaryCell = "MediaSummaryCell"
     }
     
     
@@ -31,9 +31,16 @@ class TrendingMoviesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let nib = UINib(nibName: Constants.searchAndFilterCell, bundle: nil)
-        mediaTableView.register(nib, forCellReuseIdentifier: Constants.searchAndFilterCell)
+        registerCells(for: mediaTableView)
         fetchTrendingMovies()
+    }
+    
+    private func registerCells(for tableView: UITableView) {
+        var nib = UINib(nibName: Constants.searchAndFilterCell, bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: Constants.searchAndFilterCell)
+        
+        nib = UINib(nibName: Constants.mediaSummaryCell, bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: Constants.mediaSummaryCell)
     }
     
     func fetchTrendingMovies() {
@@ -61,27 +68,27 @@ extension TrendingMoviesViewController: UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard indexPath.section == 1 else {
-            return searchAndFilterCell(for: indexPath)
+            return searchAndFilterCell(for: tableView, with: indexPath)
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.mediaSummaryCell, for: indexPath)
-        
-        let media = trendingMovies[indexPath.row]
-        var contentConfig = UIListContentConfiguration.subtitleCell()
-        
-        contentConfig.text = media.label
-        contentConfig.secondaryText = media.mediaType.rawValue
-        
-        cell.contentConfiguration = contentConfig
-        
-        return cell
+        return mediaSummaryCell(for: tableView, with: indexPath)
     }
     
-    private func searchAndFilterCell(for indexPath: IndexPath) -> SearchAndFilterCell {
-        let cell = mediaTableView
+    private func searchAndFilterCell(for tableView: UITableView, with indexPath: IndexPath) -> SearchAndFilterCell {
+        let cell = tableView
             .dequeueReusableCell(withIdentifier: Constants.searchAndFilterCell,
                                  for: indexPath) as! SearchAndFilterCell
         cell.delegate = self
+        return cell
+    }
+    
+    private func mediaSummaryCell(for tableView: UITableView, with indexPath: IndexPath) -> MediaSummaryCell {
+        let cell = tableView
+            .dequeueReusableCell(withIdentifier: Constants.mediaSummaryCell,
+                                 for: indexPath) as! MediaSummaryCell
+        let media = trendingMovies[indexPath.row]
+        cell.show(media: media)
+        
         return cell
     }
     
