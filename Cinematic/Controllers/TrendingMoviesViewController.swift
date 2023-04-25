@@ -8,9 +8,15 @@
 import UIKit
 
 class TrendingMoviesViewController: UIViewController {
+    enum Constants {
+        static let searchAndFilterHeaderView = "SearchAndFilterHeaderView"
+        static let cellName = "mediaCell"
+    }
+    
     
     // Outlets
     @IBOutlet private weak var mediaTableView: UITableView!
+    private weak var searchAndFilterHeaderView: SearchAndFilterHeaderView!
     
     // Properties
     private var trendingMovies = [MediaSummary]() {
@@ -25,7 +31,8 @@ class TrendingMoviesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        let nib = UINib(nibName: Constants.searchAndFilterHeaderView, bundle: nil)
+        mediaTableView.register(nib, forHeaderFooterViewReuseIdentifier: Constants.searchAndFilterHeaderView)
         fetchTrendingMovies()
     }
     
@@ -52,16 +59,13 @@ class TrendingMoviesViewController: UIViewController {
 }
 
 extension TrendingMoviesViewController: UITableViewDataSource, UITableViewDelegate {
-    private var cellName: String {
-        "mediaCell"
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         trendingMovies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellName, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellName, for: indexPath)
         
         let media = trendingMovies[indexPath.row]
         var contentConfig = UIListContentConfiguration.subtitleCell()
@@ -74,5 +78,22 @@ extension TrendingMoviesViewController: UITableViewDataSource, UITableViewDelega
         return cell
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: Constants.searchAndFilterHeaderView) as? SearchAndFilterHeaderView
+        
+        return headerView
+    }
+    
+}
+
+extension TrendingMoviesViewController: SearchAndFilterHeaderViewDelegate {
+    
+    func search(_ text: String?) {
+        
+    }
+    
+    func sort(by criteria: SortCriteria) {
+        
+    }
     
 }
