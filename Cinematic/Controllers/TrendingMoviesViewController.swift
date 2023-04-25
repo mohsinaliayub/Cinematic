@@ -9,14 +9,14 @@ import UIKit
 
 class TrendingMoviesViewController: UIViewController {
     enum Constants {
-        static let searchAndFilterHeaderView = "SearchAndFilterHeaderView"
-        static let cellName = "mediaCell"
+        static let searchAndFilterCell = "SearchAndFilterCell"
+        static let mediaSummaryCell = "mediaCell"
     }
     
     
     // Outlets
     @IBOutlet private weak var mediaTableView: UITableView!
-    private weak var searchAndFilterHeaderView: SearchAndFilterHeaderView!
+    private weak var searchAndFilterHeaderView: SearchAndFilterCell!
     
     // Properties
     private var trendingMovies = [MediaSummary]() {
@@ -31,8 +31,8 @@ class TrendingMoviesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let nib = UINib(nibName: Constants.searchAndFilterHeaderView, bundle: nil)
-        mediaTableView.register(nib, forHeaderFooterViewReuseIdentifier: Constants.searchAndFilterHeaderView)
+        let nib = UINib(nibName: Constants.searchAndFilterCell, bundle: nil)
+        mediaTableView.register(nib, forCellReuseIdentifier: Constants.searchAndFilterCell)
         fetchTrendingMovies()
     }
     
@@ -46,26 +46,25 @@ class TrendingMoviesViewController: UIViewController {
         }
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 extension TrendingMoviesViewController: UITableViewDataSource, UITableViewDelegate {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        // 2 sections, 1st section contains only search field, and second section contains item
+        2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        trendingMovies.count
+        section == 0 ? 1 : trendingMovies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellName, for: indexPath)
+        guard indexPath.section == 1 else {
+            return searchAndFilterCell(for: indexPath)
+        }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.mediaSummaryCell, for: indexPath)
         
         let media = trendingMovies[indexPath.row]
         var contentConfig = UIListContentConfiguration.subtitleCell()
@@ -78,10 +77,12 @@ extension TrendingMoviesViewController: UITableViewDataSource, UITableViewDelega
         return cell
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: Constants.searchAndFilterHeaderView) as? SearchAndFilterHeaderView
-        
-        return headerView
+    private func searchAndFilterCell(for indexPath: IndexPath) -> SearchAndFilterCell {
+        let cell = mediaTableView
+            .dequeueReusableCell(withIdentifier: Constants.searchAndFilterCell,
+                                 for: indexPath) as! SearchAndFilterCell
+        cell.delegate = self
+        return cell
     }
     
 }
@@ -92,7 +93,7 @@ extension TrendingMoviesViewController: SearchAndFilterHeaderViewDelegate {
         
     }
     
-    func sort(by criteria: SortCriteria) {
+    func showFilters() {
         
     }
     
