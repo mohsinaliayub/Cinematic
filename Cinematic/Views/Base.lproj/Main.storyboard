@@ -6,43 +6,51 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Library-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Trending-->
+        <scene sceneID="u8C-0p-YGm">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="TrendingMoviesViewController" customModule="Cinematic" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                <viewController id="KwY-VI-Kkb" customClass="TrendingViewController" customModule="Cinematic" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aeG-NR-vph">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="FQr-0D-vVl">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sPh-Uh-jBo">
                                 <rect key="frame" x="0.0" y="155" width="393" height="663"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="2sK-g0-jDF">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
                                 <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="jVA-s2-q0R"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="O4s-th-KeM"/>
+                                    <outlet property="dataSource" destination="KwY-VI-Kkb" id="BgV-Lb-LnC"/>
+                                    <outlet property="delegate" destination="KwY-VI-Kkb" id="9eK-Ug-Cgu"/>
                                 </connections>
-                            </tableView>
+                            </collectionView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" name="background-color"/>
+                        <viewLayoutGuide key="safeArea" id="QoP-kl-R7o"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="FQr-0D-vVl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="HYT-Ye-Q7B"/>
-                            <constraint firstItem="FQr-0D-vVl" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="qWd-p6-a4I"/>
-                            <constraint firstItem="FQr-0D-vVl" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="xGC-f1-aNp"/>
-                            <constraint firstItem="FQr-0D-vVl" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="xmw-Dd-RlQ"/>
+                            <constraint firstItem="QoP-kl-R7o" firstAttribute="trailing" secondItem="sPh-Uh-jBo" secondAttribute="trailing" id="1MX-Gj-tF4"/>
+                            <constraint firstItem="sPh-Uh-jBo" firstAttribute="leading" secondItem="QoP-kl-R7o" secondAttribute="leading" id="B9V-4T-oCk"/>
+                            <constraint firstItem="sPh-Uh-jBo" firstAttribute="top" secondItem="QoP-kl-R7o" secondAttribute="top" id="dTX-pO-fzn"/>
+                            <constraint firstItem="QoP-kl-R7o" firstAttribute="bottom" secondItem="sPh-Uh-jBo" secondAttribute="bottom" id="ncd-oP-7bV"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Library" id="jmX-Vg-Gyi"/>
+                    <navigationItem key="navigationItem" title="Trending" id="9Sz-UT-vnb"/>
                     <connections>
-                        <outlet property="mediaTableView" destination="FQr-0D-vVl" id="axy-iA-l07"/>
+                        <outlet property="trendingMediaCollectionView" destination="sPh-Uh-jBo" id="rna-02-4mK"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ot7-x1-DKx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1593" y="16"/>
+            <point key="canvasLocation" x="1001" y="704"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E6t-Uv-EfP">
@@ -56,17 +64,20 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="xMg-dR-CRP"/>
+                        <segue destination="KwY-VI-Kkb" kind="relationship" relationship="rootViewController" id="gcl-Ft-7hb"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hVv-sA-BJc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="80" y="15"/>
+            <point key="canvasLocation" x="-71" y="318"/>
         </scene>
     </scenes>
     <resources>
         <namedColor name="background-color">
             <color red="0.94901960784313721" green="0.96470588235294119" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
