@@ -39,6 +39,7 @@
                     <constraint firstItem="Snu-th-EUf" firstAttribute="leading" secondItem="Vqt-8D-8kF" secondAttribute="leading" constant="16" id="pyb-r8-ccJ"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="filterImageView" destination="DbK-IO-ETI" id="u5f-3r-Yji"/>
                 <outlet property="searchField" destination="Snu-th-EUf" id="rga-JC-FSn"/>

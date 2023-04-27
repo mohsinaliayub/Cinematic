@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -12,67 +13,90 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="MediaSummaryCell" customModule="Cinematic" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="421" height="215"/>
+            <rect key="frame" x="0.0" y="0.0" width="421" height="217"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="421" height="215"/>
+                <rect key="frame" x="0.0" y="0.0" width="421" height="217"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ant-Man and the Wasp: Quantamania" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jgd-9E-vP7">
-                        <rect key="frame" x="20" y="16.000000000000004" width="295" height="42.333333333333343"/>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XuA-h1-nxL">
-                        <rect key="frame" x="20.000000000000004" y="66.333333333333329" width="36.333333333333343" height="15.666666666666671"/>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                        <color key="textColor" systemColor="secondaryLabelColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="749-lV-mtU">
-                        <rect key="frame" x="20" y="94" width="381" height="71.666666666666686"/>
-                        <string key="text">Super-Hero partners Scott Lang and Hope van Dyne, along with with Hope's parents Janet van Dyne and Hank Pym, and Scott's daughter Cassie Lang, find themselves exploring the Quantum Realm, interacting with strange new creatures and embarking on an adventure that will push them beyond the limits of what they thought possible.</string>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                        <color key="textColor" systemColor="secondaryLabelColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tos-kT-T1Z">
-                        <rect key="frame" x="331" y="16" width="70" height="70"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ovi-pK-Ild">
+                        <rect key="frame" x="16" y="16" width="389" height="185"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VXg-WQ-rwz">
+                                <rect key="frame" x="0.0" y="0.0" width="389" height="185"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="VXg-WQ-rwz" secondAttribute="height" multiplier="389:185" id="hNK-tf-rxG"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ant-Man and the Wasp: Quantamania" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jgd-9E-vP7">
+                                <rect key="frame" x="16" y="15.999999999999998" width="296.66666666666669" height="20.333333333333329"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <color key="textColor" name="background-color"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XuA-h1-nxL">
+                                <rect key="frame" x="16.000000000000004" y="40.333333333333336" width="36.333333333333343" height="15.666666666666664"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="749-lV-mtU">
+                                <rect key="frame" x="16" y="97.333333333333329" width="365" height="42.333333333333329"/>
+                                <string key="text">Super-Hero partners Scott Lang and Hope van Dyne, along with with Hope's parents Janet van Dyne and Hank Pym, and Scott's daughter Cassie Lang, find themselves exploring the Quantum Realm, interacting with strange new creatures and embarking on an adventure that will push them beyond the limits of what they thought possible.</string>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feb 15 2023" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WgR-Pz-qF1">
+                                <rect key="frame" x="16" y="155.66666666666666" width="65.333333333333329" height="13.333333333333343"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="70" id="BQE-gi-Ayz"/>
-                            <constraint firstAttribute="width" constant="70" id="h2b-E2-8pZ"/>
+                            <constraint firstItem="VXg-WQ-rwz" firstAttribute="leading" secondItem="Ovi-pK-Ild" secondAttribute="leading" id="1th-3L-Fjx"/>
+                            <constraint firstItem="XuA-h1-nxL" firstAttribute="leading" secondItem="jgd-9E-vP7" secondAttribute="leading" id="3Rc-bW-rLy"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="WgR-Pz-qF1" secondAttribute="trailing" constant="8" id="Gtz-BF-xUh"/>
+                            <constraint firstItem="jgd-9E-vP7" firstAttribute="leading" secondItem="Ovi-pK-Ild" secondAttribute="leading" constant="16" id="GyW-fg-OOD"/>
+                            <constraint firstAttribute="bottom" secondItem="VXg-WQ-rwz" secondAttribute="bottom" id="NHj-E5-BxE"/>
+                            <constraint firstItem="XuA-h1-nxL" firstAttribute="top" secondItem="jgd-9E-vP7" secondAttribute="bottom" constant="4" id="TdA-On-udk"/>
+                            <constraint firstItem="WgR-Pz-qF1" firstAttribute="top" secondItem="749-lV-mtU" secondAttribute="bottom" constant="16" id="cBu-TY-s54"/>
+                            <constraint firstItem="WgR-Pz-qF1" firstAttribute="leading" secondItem="jgd-9E-vP7" secondAttribute="leading" id="cMo-0G-J3W"/>
+                            <constraint firstItem="VXg-WQ-rwz" firstAttribute="top" secondItem="Ovi-pK-Ild" secondAttribute="top" id="cbz-x6-A7b"/>
+                            <constraint firstItem="jgd-9E-vP7" firstAttribute="top" secondItem="Ovi-pK-Ild" secondAttribute="top" constant="16" id="eJ3-cK-JXO"/>
+                            <constraint firstItem="749-lV-mtU" firstAttribute="leading" secondItem="jgd-9E-vP7" secondAttribute="leading" id="g1p-xB-Jiv"/>
+                            <constraint firstAttribute="trailing" secondItem="749-lV-mtU" secondAttribute="trailing" constant="8" id="kul-av-CAQ"/>
+                            <constraint firstAttribute="trailing" secondItem="VXg-WQ-rwz" secondAttribute="trailing" id="ohd-Wr-pIB"/>
+                            <constraint firstAttribute="bottom" secondItem="WgR-Pz-qF1" secondAttribute="bottom" constant="16" id="vKA-Wm-kZW"/>
                         </constraints>
-                    </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feb 15 2023" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WgR-Pz-qF1">
-                        <rect key="frame" x="20" y="185.66666666666666" width="65.333333333333329" height="13.333333333333343"/>
-                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption2"/>
-                        <color key="textColor" systemColor="secondaryLabelColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="XuA-h1-nxL" firstAttribute="leading" secondItem="jgd-9E-vP7" secondAttribute="leading" id="38O-Gj-zrg"/>
-                    <constraint firstItem="749-lV-mtU" firstAttribute="top" secondItem="tos-kT-T1Z" secondAttribute="bottom" constant="8" id="54t-K8-tkD"/>
-                    <constraint firstItem="749-lV-mtU" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="5s0-Mg-w7y"/>
-                    <constraint firstItem="WgR-Pz-qF1" firstAttribute="top" secondItem="749-lV-mtU" secondAttribute="bottom" constant="20" id="6Ck-YU-j0s"/>
-                    <constraint firstItem="tos-kT-T1Z" firstAttribute="leading" secondItem="jgd-9E-vP7" secondAttribute="trailing" constant="16" id="FSf-6D-hoW"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="WgR-Pz-qF1" secondAttribute="trailing" constant="20" id="HAg-To-Tu8"/>
-                    <constraint firstAttribute="bottom" secondItem="WgR-Pz-qF1" secondAttribute="bottom" constant="16" id="HIA-fq-mna"/>
-                    <constraint firstItem="tos-kT-T1Z" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="XuA-h1-nxL" secondAttribute="trailing" constant="16" id="L4M-TE-H2N"/>
-                    <constraint firstItem="WgR-Pz-qF1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" symbolic="YES" id="NeU-Hm-2Ym"/>
-                    <constraint firstItem="jgd-9E-vP7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" symbolic="YES" id="Orc-cW-ApI"/>
-                    <constraint firstItem="XuA-h1-nxL" firstAttribute="top" secondItem="jgd-9E-vP7" secondAttribute="bottom" constant="8" symbolic="YES" id="Qmb-Oy-eXV"/>
-                    <constraint firstAttribute="trailing" secondItem="tos-kT-T1Z" secondAttribute="trailing" constant="20" symbolic="YES" id="WBY-kb-fzg"/>
-                    <constraint firstItem="749-lV-mtU" firstAttribute="leading" secondItem="jgd-9E-vP7" secondAttribute="leading" id="ZMB-TW-zdb"/>
-                    <constraint firstItem="jgd-9E-vP7" firstAttribute="top" secondItem="tos-kT-T1Z" secondAttribute="top" id="eNr-Sd-rvY"/>
-                    <constraint firstItem="tos-kT-T1Z" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="qnN-NH-lFy"/>
+                    <constraint firstItem="Ovi-pK-Ild" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="Hz5-Ye-AJn"/>
+                    <constraint firstAttribute="trailing" secondItem="Ovi-pK-Ild" secondAttribute="trailing" constant="16" id="J5J-tx-d2N"/>
+                    <constraint firstAttribute="bottom" secondItem="Ovi-pK-Ild" secondAttribute="bottom" constant="16" id="hnJ-ny-rPd"/>
+                    <constraint firstItem="Ovi-pK-Ild" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="wht-TD-AuD"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="container" destination="Ovi-pK-Ild" id="iZW-P6-eSs"/>
+                <outlet property="mediaBackdropImageView" destination="VXg-WQ-rwz" id="DmR-RY-3df"/>
                 <outlet property="mediaOverviewLabel" destination="749-lV-mtU" id="3Y8-uD-aAJ"/>
-                <outlet property="mediaPosterImageView" destination="tos-kT-T1Z" id="7yB-f6-PHM"/>
                 <outlet property="mediaTypeLabel" destination="XuA-h1-nxL" id="qgY-9Z-NZQ"/>
                 <outlet property="releaseDateLabel" destination="WgR-Pz-qF1" id="UQg-F2-L1K"/>
                 <outlet property="titleLabel" destination="jgd-9E-vP7" id="cAw-Oq-Pcn"/>
@@ -81,8 +105,11 @@
         </tableViewCell>
     </objects>
     <resources>
-        <systemColor name="secondaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="background-color">
+            <color red="0.94901960784313721" green="0.96470588235294119" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

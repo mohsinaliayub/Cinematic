@@ -14,7 +14,11 @@ class MediaSummaryCell: UITableViewCell {
     @IBOutlet private weak var mediaOverviewLabel: UILabel!
     @IBOutlet private weak var releaseDateLabel: UILabel!
     @IBOutlet private weak var mediaPosterImageView: UIImageView!
-
+    @IBOutlet weak var mediaBackdropImageView: UIImageView!
+    @IBOutlet weak var container: UIView!
+    
+    private let imageDownloader: ImageDownloader = CinematicImageDownloader()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -33,5 +37,19 @@ class MediaSummaryCell: UITableViewCell {
         releaseDateLabel.text = media.releaseDateString
         
         // TODO: Set image view
+        downloadAndDisplayImage(on: mediaBackdropImageView, from: media.backdropURL)
     }
+    
+    private func downloadAndDisplayImage(on imageView: UIImageView, from url: URL?) {
+        guard let url = url else { return }
+        
+        Task {
+            if let image = try? await imageDownloader.downloadImage(from: url) {
+                DispatchQueue.main.async {
+                    imageView.image = image
+                }
+            }
+        }
+    }
+    
 }
