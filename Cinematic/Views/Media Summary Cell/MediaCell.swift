@@ -9,7 +9,12 @@ import UIKit
 
 class MediaCell: UICollectionViewCell {
     @IBOutlet private weak var mediaNameLabel: UILabel!
-    @IBOutlet private weak var posterImageView: UIImageView!
+    @IBOutlet private weak var posterImageView: UIImageView! {
+        didSet {
+            posterImageView.layer.cornerRadius = 5
+            posterImageView.clipsToBounds = true
+        }
+    }
     
     public var posterImage: UIImage? {
         get { posterImageView.image }

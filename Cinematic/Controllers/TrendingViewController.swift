@@ -10,8 +10,8 @@ import UIKit
 class TrendingViewController: UIViewController {
     enum Constants {
         static let mediaCell = "MediaCell"
-        static let sizeForCell = CGSize(width: 80, height: 120)
-        static let sectionInsets = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        static let sizeForCell = CGSize(width: 120, height: 160)
+        static let sectionInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
     }
     
     // Outlets
@@ -71,13 +71,18 @@ extension TrendingViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        Constants.sizeForCell
+        sizeForCell()
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         Constants.sectionInsets
+    }
+    
+    private func sizeForCell() -> CGSize {
+        // Calculate the size for each cell.
+        Constants.sizeForCell
     }
     
 }
