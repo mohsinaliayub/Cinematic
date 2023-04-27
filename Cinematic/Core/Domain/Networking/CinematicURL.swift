@@ -7,12 +7,16 @@
 
 import Foundation
 
+/// Represents a unique movie id.
+typealias MovieID = Int
+
 enum MovieResultType {
     case popular, details
 }
 
 enum CinematicURL {
     case trending(mediaType: MediaType, page: Int?)
+    case movie(id: MovieID)
     
     var url: URL? {
         switch self {
@@ -24,6 +28,8 @@ enum CinematicURL {
             }
             
             return components?.url
+        case .movie(let id):
+            return url(with: "/movie/\(id)")?.url
         }
     }
     

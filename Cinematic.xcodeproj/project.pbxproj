@@ -35,6 +35,7 @@
 		68C84ECD29F7F69A00780D98 /* MediaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68C84ECC29F7F69A00780D98 /* MediaCell.xib */; };
 		68EC996029FA692F002C1B7D /* MediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EC995F29FA692F002C1B7D /* MediaCell.swift */; };
 		68EC996229FA6C12002C1B7D /* TrendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EC996129FA6C12002C1B7D /* TrendingViewController.swift */; };
+		68EC996429FA9539002C1B7D /* MediaDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EC996329FA9539002C1B7D /* MediaDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		68C84ECC29F7F69A00780D98 /* MediaCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MediaCell.xib; sourceTree = "<group>"; };
 		68EC995F29FA692F002C1B7D /* MediaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaCell.swift; sourceTree = "<group>"; };
 		68EC996129FA6C12002C1B7D /* TrendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingViewController.swift; sourceTree = "<group>"; };
+		68EC996329FA9539002C1B7D /* MediaDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				68EC996129FA6C12002C1B7D /* TrendingViewController.swift */,
+				68EC996329FA9539002C1B7D /* MediaDetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				6875368C299643C3000182E9 /* Genre.swift in Sources */,
 				6875368A299643AA000182E9 /* Status.swift in Sources */,
 				68195C3528E1661A007350A3 /* SceneDelegate.swift in Sources */,
+				68EC996429FA9539002C1B7D /* MediaDetailViewController.swift in Sources */,
 				6875368429963CF1000182E9 /* MediaType.swift in Sources */,
 				6875368229963C64000182E9 /* MediaSummary.swift in Sources */,
 				68753686299642D9000182E9 /* MediaResult.swift in Sources */,

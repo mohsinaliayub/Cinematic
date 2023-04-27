@@ -12,6 +12,7 @@ class TrendingViewController: UIViewController {
         static let mediaCell = "MediaCell"
         static let sizeForCell = CGSize(width: 120, height: 160)
         static let sectionInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        static let showMediaDetailSegueId = "showMediaDetail"
     }
     
     // Outlets
@@ -44,6 +45,15 @@ class TrendingViewController: UIViewController {
             } catch {
                 print(error.localizedDescription)
             }
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constants.showMediaDetailSegueId,
+           let indexPath = sender as? IndexPath {
+            let detailVC = segue.destination as! MediaDetailViewController
+            detailVC.mediaID = trendingMovies[indexPath.row].id
+            detailVC.mediaType = trendingMovies[indexPath.row].mediaType
         }
     }
 }
@@ -83,6 +93,14 @@ extension TrendingViewController: UICollectionViewDelegateFlowLayout {
     private func sizeForCell() -> CGSize {
         // Calculate the size for each cell.
         Constants.sizeForCell
+    }
+    
+}
+
+extension TrendingViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: Constants.showMediaDetailSegueId, sender: indexPath)
     }
     
 }

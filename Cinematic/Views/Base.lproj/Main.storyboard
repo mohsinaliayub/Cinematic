@@ -6,7 +6,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,7 +19,7 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sPh-Uh-jBo">
                                 <rect key="frame" x="0.0" y="155" width="393" height="663"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" name="background-color"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="2sK-g0-jDF">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -35,7 +34,7 @@
                             </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="QoP-kl-R7o"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="background-color"/>
                         <constraints>
                             <constraint firstItem="QoP-kl-R7o" firstAttribute="trailing" secondItem="sPh-Uh-jBo" secondAttribute="trailing" id="1MX-Gj-tF4"/>
                             <constraint firstItem="sPh-Uh-jBo" firstAttribute="leading" secondItem="QoP-kl-R7o" secondAttribute="leading" id="B9V-4T-oCk"/>
@@ -46,11 +45,28 @@
                     <navigationItem key="navigationItem" title="Trending" id="9Sz-UT-vnb"/>
                     <connections>
                         <outlet property="trendingMediaCollectionView" destination="sPh-Uh-jBo" id="rna-02-4mK"/>
+                        <segue destination="CRr-PM-p82" kind="show" identifier="showMediaDetail" id="MHZ-VA-sv5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ot7-x1-DKx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1001" y="704"/>
+            <point key="canvasLocation" x="792" y="318"/>
+        </scene>
+        <!--Media Detail View Controller-->
+        <scene sceneID="ker-hE-UbL">
+            <objects>
+                <viewController id="CRr-PM-p82" customClass="MediaDetailViewController" customModule="Cinematic" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xQS-BC-QFi">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ZYp-kC-ZrW"/>
+                        <color key="backgroundColor" name="background-color"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="kg0-po-0yJ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="46s-sk-uWi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1648" y="318"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E6t-Uv-EfP">
@@ -76,8 +92,5 @@
         <namedColor name="background-color">
             <color red="0.94901960784313721" green="0.96470588235294119" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>
