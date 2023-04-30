@@ -65,3 +65,13 @@ extension MediaSummary: Decodable {
         releaseDate = shortDateFormatter.date(from: releaseDateString)
     }
 }
+
+extension MediaSummary: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: MediaSummary, rhs: MediaSummary) -> Bool {
+        lhs.id == rhs.id
+    }
+}

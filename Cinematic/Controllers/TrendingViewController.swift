@@ -15,6 +15,12 @@ class TrendingViewController: UIViewController {
         static let showMediaDetailSegueId = "showMediaDetail"
     }
     
+    enum Section {
+        case trendingMovies
+    }
+    private typealias TrendingDataSource = UICollectionViewDiffableDataSource<Section, MediaSummary>
+    private typealias TrendingSnapshot = NSDiffableDataSourceSnapshot<Section, MediaSummary>
+    
     // Outlets
     @IBOutlet weak var trendingMediaCollectionView: UICollectionView!
     
@@ -22,16 +28,20 @@ class TrendingViewController: UIViewController {
     private let movieService = CinematicMovieService()
     private var trendingMovies = [MediaSummary]() {
         didSet {
-            trendingMediaCollectionView.reloadData()
+            applySnapshot()
         }
     }
+    private lazy var dataSource = makeDataSource()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         registerCell()
         fetchTrendingMovies()
+        applySnapshot(animatingDifferences: false)
     }
+    
+    // MARK: Functions
     
     private func registerCell() {
         let nib = UINib(nibName: Constants.mediaCell, bundle: nil)
@@ -48,33 +58,35 @@ class TrendingViewController: UIViewController {
         }
     }
     
+    private func makeDataSource() -> TrendingDataSource {
+        let dataSource = TrendingDataSource(collectionView: trendingMediaCollectionView) { collectionView, indexPath, media in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.mediaCell, for: indexPath) as? MediaCell
+            
+            cell?.display(mediaSummary: media)
+            return cell
+        }
+        return dataSource
+    }
+    
+    private func applySnapshot(animatingDifferences: Bool = true) {
+        var snapshot = TrendingSnapshot()
+        snapshot.appendSections([.trendingMovies])
+        snapshot.appendItems(trendingMovies, toSection: .trendingMovies)
+        
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+    }
+    
+    // MARK: Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Constants.showMediaDetailSegueId,
            let indexPath = sender as? IndexPath {
             let detailVC = segue.destination as! MediaDetailViewController
-            detailVC.mediaID = trendingMovies[indexPath.row].id
-            detailVC.mediaType = trendingMovies[indexPath.row].mediaType
+            let movie = dataSource.itemIdentifier(for: indexPath)
+            detailVC.mediaID = movie?.id
+            detailVC.mediaType = movie?.mediaType
         }
     }
-}
-
-extension TrendingViewController: UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        trendingMovies.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView
-            .dequeueReusableCell(withReuseIdentifier: Constants.mediaCell,
-                                 for: indexPath) as! MediaCell
-        
-        let movie = trendingMovies[indexPath.row]
-        cell.display(mediaSummary: movie)
-        
-        return cell
-    }
-    
 }
 
 extension TrendingViewController: UICollectionViewDelegateFlowLayout {
