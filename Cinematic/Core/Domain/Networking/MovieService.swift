@@ -19,7 +19,7 @@ protocol MovieFetcher {
     func fetchTrendingMovies() async throws -> [MediaSummary]
     
     /// Fetch movie details from TMDB API.
-    func fetchMovieDetails(by id: MovieID) async throws -> Movie
+    func fetchMovieDetails(for: MediaType, by: MovieID) async throws -> Movie
 }
 
 class CinematicMovieService: MovieFetcher {
@@ -56,8 +56,8 @@ class CinematicMovieService: MovieFetcher {
         return trendingMovies
     }
     
-    func fetchMovieDetails(by id: Int) async throws -> Movie {
-        cinematicURL = .movie(id: id)
+    func fetchMovieDetails(for mediaType: MediaType, by id: Int) async throws -> Movie {
+        cinematicURL = .detail(for: mediaType, id: id)
         
         let url = try url(cinematicURL?.url)
         let (data, response) = try await URLSession.shared.data(from: url)

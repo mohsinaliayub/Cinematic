@@ -16,7 +16,7 @@ enum MovieResultType {
 
 enum CinematicURL {
     case trending(mediaType: MediaType, page: Int?)
-    case movie(id: MovieID)
+    case detail(for: MediaType, id: MovieID)
     
     var url: URL? {
         switch self {
@@ -28,8 +28,8 @@ enum CinematicURL {
             }
             
             return components?.url
-        case .movie(let id):
-            return url(with: "/movie/\(id)")?.url
+        case .detail(let mediaType, let id):
+            return url(with: "/\(mediaType.rawValue)/\(id)")?.url
         }
     }
     
