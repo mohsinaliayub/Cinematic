@@ -10,6 +10,7 @@ import UIKit
 class TrendingViewController: UIViewController {
     enum Constants {
         static let mediaCell = "MediaCell"
+        static let sectionHeader = "SectionHeaderView"
         static let sizeForCell = CGSize(width: 120, height: 160)
         static let sectionInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         static let showMediaDetailSegueId = "showMediaDetail"
@@ -17,12 +18,22 @@ class TrendingViewController: UIViewController {
     
     enum Section {
         case trendingMovies
+        
+        var label: String {
+            switch self {
+            case .trendingMovies: return "Trending Movies"
+            }
+        }
     }
     private typealias TrendingDataSource = UICollectionViewDiffableDataSource<Section, MediaSummary>
     private typealias TrendingSnapshot = NSDiffableDataSourceSnapshot<Section, MediaSummary>
     
     // Outlets
-    @IBOutlet weak var trendingMediaCollectionView: UICollectionView!
+    @IBOutlet weak var trendingMediaCollectionView: UICollectionView! {
+        didSet {
+            
+        }
+    }
     
     // properties
     private let movieService = CinematicMovieService()
@@ -36,16 +47,22 @@ class TrendingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        registerCell()
-        fetchTrendingMovies()
+        registerCellsAndSupplementaryViews()
         applySnapshot(animatingDifferences: false)
+        fetchTrendingMovies()
     }
     
     // MARK: Functions
     
-    private func registerCell() {
-        let nib = UINib(nibName: Constants.mediaCell, bundle: nil)
+    private func registerCellsAndSupplementaryViews() {
+        var nib = UINib(nibName: Constants.mediaCell, bundle: nil)
         trendingMediaCollectionView.register(nib, forCellWithReuseIdentifier: Constants.mediaCell)
+        
+        // register header view
+        nib = UINib(nibName: Constants.sectionHeader, bundle: nil)
+        trendingMediaCollectionView
+            .register(nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                      withReuseIdentifier: Constants.sectionHeader)
     }
     
     private func fetchTrendingMovies() {
@@ -65,6 +82,20 @@ class TrendingViewController: UIViewController {
             cell?.display(mediaSummary: media)
             return cell
         }
+        
+        // set the header view
+        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
+            guard kind == UICollectionView.elementKindSectionHeader else { return nil }
+            
+            let headerView = collectionView
+                .dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Constants.sectionHeader,
+                                                  for: indexPath) as? SectionHeaderView
+            let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
+            headerView?.set(label: section.label)
+            
+            return headerView
+        }
+        
         return dataSource
     }
     
@@ -100,6 +131,10 @@ extension TrendingViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         Constants.sectionInsets
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        CGSize(width: collectionView.bounds.size.width, height: 60)
     }
     
     private func sizeForCell() -> CGSize {
