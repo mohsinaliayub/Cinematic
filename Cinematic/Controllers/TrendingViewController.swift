@@ -16,27 +16,17 @@ class TrendingViewController: UIViewController {
         static let showMediaDetailSegueId = "showMediaDetail"
     }
     
-    enum Section {
-        case trendingMovies
-        
-        var label: String {
-            switch self {
-            case .trendingMovies: return "Trending Movies"
-            }
-        }
-    }
+    
     private typealias TrendingDataSource = UICollectionViewDiffableDataSource<Section, MediaSummary>
     private typealias TrendingSnapshot = NSDiffableDataSourceSnapshot<Section, MediaSummary>
     
     // Outlets
-    @IBOutlet weak var trendingMediaCollectionView: UICollectionView! {
-        didSet {
-            
-        }
-    }
+    @IBOutlet weak var trendingMediaCollectionView: UICollectionView!
     
     // properties
+    
     private let movieService = CinematicMovieService()
+    private var sections = [Section]()
     private var trendingMovies = [MediaSummary]() {
         didSet {
             applySnapshot()
@@ -49,7 +39,7 @@ class TrendingViewController: UIViewController {
         
         registerCellsAndSupplementaryViews()
         applySnapshot(animatingDifferences: false)
-        fetchTrendingMovies()
+        fetchDataFromAPI()
     }
     
     // MARK: Functions
@@ -65,15 +55,37 @@ class TrendingViewController: UIViewController {
                       withReuseIdentifier: Constants.sectionHeader)
     }
     
-    private func fetchTrendingMovies() {
+    
+    private func fetchDataFromAPI() {
         Task {
             do {
-                trendingMovies = try await movieService.fetchTrendingMovies()
+                try await fetchTrendingMovies()
+                
+                // reload the data
+                applySnapshot()
             } catch {
                 print(error.localizedDescription)
             }
         }
     }
+    
+    private func fetchTrendingMovies() async throws {
+        let movies = try await movieService.fetchTrendingMovies()
+        
+        // if the section exists, append movies to it, otherwise create a new section
+        if let section = sections.first(where: { $0.id == .trendingMovies }) {
+            section.mediaSummaries = movies
+        } else {
+            let moviesSection = Section(id: .trendingMovies, mediaSummaries: movies)
+            sections.append(moviesSection)
+        }
+    }
+    
+    private func fetchTrendingTVShows() async throws {
+        
+    }
+    
+    // MARK: CollectionView Data Source & Snapshot
     
     private func makeDataSource() -> TrendingDataSource {
         let dataSource = TrendingDataSource(collectionView: trendingMediaCollectionView) { collectionView, indexPath, media in
@@ -91,7 +103,7 @@ class TrendingViewController: UIViewController {
                 .dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Constants.sectionHeader,
                                                   for: indexPath) as? SectionHeaderView
             let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
-            headerView?.set(label: section.label)
+            headerView?.set(label: section.title)
             
             return headerView
         }
@@ -101,8 +113,10 @@ class TrendingViewController: UIViewController {
     
     private func applySnapshot(animatingDifferences: Bool = true) {
         var snapshot = TrendingSnapshot()
-        snapshot.appendSections([.trendingMovies])
-        snapshot.appendItems(trendingMovies, toSection: .trendingMovies)
+        snapshot.appendSections(sections)
+        sections.forEach { section in
+            snapshot.appendItems(section.mediaSummaries, toSection: section)
+        }
         
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }

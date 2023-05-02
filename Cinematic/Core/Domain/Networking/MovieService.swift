@@ -18,6 +18,9 @@ protocol MovieFetcher {
     /// Fetch trending weekly movies from TMDB API.
     func fetchTrendingMovies() async throws -> [MediaSummary]
     
+    /// Fetch weekly trending media type from TMDB API.
+    func fetchTrending(mediaType: MediaType, fromPage: Int?) async throws -> (pageToQueryNext: Int?, medias: [MediaSummary])
+    
     /// Fetch movie details from TMDB API.
     func fetchMovieDetails(for: MediaType, by: MovieID) async throws -> Movie
 }
@@ -54,6 +57,22 @@ class CinematicMovieService: MovieFetcher {
         trendingMovies = mediaResult.results
         
         return trendingMovies
+    }
+    
+    func fetchTrending(mediaType: MediaType, fromPage pageToQueryNext: Int?) async throws -> (pageToQueryNext: Int?, medias: [MediaSummary]) {
+        cinematicURL = .trending(mediaType: mediaType, page: pageToQueryNext)
+        
+        // Get url or throw url error.
+        guard let url = cinematicURL?.url else {
+            throw NetworkRequestError.urlError
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        _ = try responseIsSuccessful(response)
+        
+        let mediaResult = try JSONDecoder().decode(MediaResult.self, from: data)
+        
+        return (mediaResult.page + 1, mediaResult.results)
     }
     
     func fetchMovieDetails(for mediaType: MediaType, by id: Int) async throws -> Movie {

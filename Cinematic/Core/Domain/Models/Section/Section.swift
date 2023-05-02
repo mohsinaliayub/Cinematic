@@ -8,15 +8,33 @@
 import Foundation
 
 class Section {
-    var id = UUID()
-    var title: String
-    var pageToQueryNext: Int
-    var mediaSummaries: [MediaSummary]
+    enum SectionID: Int {
+        case trendingMovies
+        case trendingTVShows
+        
+        var title: String {
+            switch self {
+            case .trendingMovies: return "Trending Movies"
+            case .trendingTVShows: return "Trending TV Shows"
+            }
+        }
+    }
     
-    init(title: String, pageToQueryNext: Int, mediaSummaries: [MediaSummary]) {
-        self.title = title
+    var id: SectionID
+    var title: String {
+        id.title
+    }
+    var pageToQueryNext: Int?
+    private var items: [MediaSummary]
+    var mediaSummaries: [MediaSummary] {
+        get { items }
+        set { items += newValue }
+    }
+    
+    init(id: SectionID, pageToQueryNext: Int? = nil, mediaSummaries: [MediaSummary] = []) {
+        self.id = id
         self.pageToQueryNext = pageToQueryNext
-        self.mediaSummaries = mediaSummaries
+        self.items = mediaSummaries
     }
 }
 
