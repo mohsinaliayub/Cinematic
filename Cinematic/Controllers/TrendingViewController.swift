@@ -70,15 +70,19 @@ class TrendingViewController: UIViewController {
     }
     
     private func fetchTrendingMovies() async throws {
-        let movies = try await movieService.fetchTrendingMovies()
-        
-        // if the section exists, append movies to it, otherwise create a new section
-        if let section = sections.first(where: { $0.id == .trendingMovies }) {
-            section.mediaSummaries = movies
+        // Get the relevant section for trending Movies or create a new one.
+        let section: Section
+        if let moviesSection = sections.first(where: { $0.id == .trendingMovies }) {
+            section = moviesSection
         } else {
-            let moviesSection = Section(id: .trendingMovies, mediaSummaries: movies)
-            sections.append(moviesSection)
+            section = Section(id: .trendingMovies)
+            sections.append(section)
         }
+        
+        let (pageToQueryNext, movies) = try await movieService.fetchTrending(mediaType: .movie, fromPage: section.pageToQueryNext)
+        
+        section.pageToQueryNext = pageToQueryNext
+        section.mediaSummaries = movies
     }
     
     private func fetchTrendingTVShows() async throws {
