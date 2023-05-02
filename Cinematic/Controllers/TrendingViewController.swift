@@ -60,6 +60,7 @@ class TrendingViewController: UIViewController {
         Task {
             do {
                 try await fetchTrendingMovies()
+                try await fetchTrendingTVShows()
                 
                 // reload the data
                 applySnapshot()
@@ -86,7 +87,19 @@ class TrendingViewController: UIViewController {
     }
     
     private func fetchTrendingTVShows() async throws {
+        // Get the relevant section for trending Movies or create a new one.
+        let section: Section
+        if let moviesSection = sections.first(where: { $0.id == .trendingTVShows }) {
+            section = moviesSection
+        } else {
+            section = Section(id: .trendingTVShows)
+            sections.append(section)
+        }
         
+        let (pageToQueryNext, movies) = try await movieService.fetchTrending(mediaType: .tv, fromPage: section.pageToQueryNext)
+        
+        section.pageToQueryNext = pageToQueryNext
+        section.mediaSummaries = movies
     }
     
     // MARK: CollectionView Data Source & Snapshot

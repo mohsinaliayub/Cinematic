@@ -61,8 +61,11 @@ extension MediaSummary: Decodable {
         
         backdropURL = URL(string: Constants.APIConstants.baseURLForImages + backdropImage)
         posterURL = URL(string: Constants.APIConstants.baseURLForImages + posterImage)
-        let releaseDateString = try container.decode(String.self, forKey: .releaseDate)
-        releaseDate = shortDateFormatter.date(from: releaseDateString)
+        if let releaseDateString = try container.decodeIfPresent(String.self, forKey: .releaseDate) {
+            releaseDate = shortDateFormatter.date(from: releaseDateString)
+        } else {
+            releaseDate = nil
+        }
     }
 }
 
