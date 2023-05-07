@@ -15,7 +15,7 @@
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VS8-Fe-QpQ">
-                    <rect key="frame" x="16.000000000000004" y="14.999999999999998" width="43.333333333333343" height="20.333333333333329"/>
+                    <rect key="frame" x="8" y="14.999999999999998" width="43.333333333333336" height="20.333333333333329"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -23,7 +23,7 @@
             </subviews>
             <viewLayoutGuide key="safeArea" id="VXr-Tz-HHm"/>
             <constraints>
-                <constraint firstItem="VS8-Fe-QpQ" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="16" id="9oP-vO-1Nz"/>
+                <constraint firstItem="VS8-Fe-QpQ" firstAttribute="leading" secondItem="VXr-Tz-HHm" secondAttribute="leading" constant="8" id="9oP-vO-1Nz"/>
                 <constraint firstItem="VXr-Tz-HHm" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="VS8-Fe-QpQ" secondAttribute="trailing" constant="16" id="WO2-ti-mX4"/>
                 <constraint firstItem="VS8-Fe-QpQ" firstAttribute="centerY" secondItem="U6b-Vx-4bR" secondAttribute="centerY" id="wC4-Aa-96H"/>
             </constraints>

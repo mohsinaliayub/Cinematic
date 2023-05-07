@@ -61,8 +61,15 @@ class TrendingViewController: UIViewController {
     private func fetchDataFromAPI() {
         Task {
             do {
-                try await fetchTrendingMovies()
-                try await fetchTrendingTVShows()
+                let moviesSection = section(for: .trendingMovies)
+                let tvSection = section(for: .trendingTVShows)
+                
+                async let trendingMovies = try await fetchTrending(for: moviesSection, withMediaType: .movie)
+                async let trendingTVShows = try await fetchTrending(for: tvSection, withMediaType: .tv)
+                
+                let (movies, tvs) = try await (trendingMovies, trendingTVShows)
+                moviesSection.mediaSummaries = movies
+                tvSection.mediaSummaries = tvs
                 
                 // reload the data
                 applySnapshot()
@@ -72,39 +79,39 @@ class TrendingViewController: UIViewController {
         }
     }
     
-    private func fetchTrendingMovies() async throws {
-        // Get the relevant section for trending Movies or create a new one.
-        let section: Section
-        if let moviesSection = sections.first(where: { $0.id == .trendingMovies }) {
-            section = moviesSection
-        } else {
-            section = Section(id: .trendingMovies)
-            sections.append(section)
-        }
-        
-        let (pageToQueryNext, movies) = try await movieService.fetchTrending(mediaType: .movie, fromPage: section.pageToQueryNext)
-        
+    private func fetchTrending(for section: Section, withMediaType mediaType: MediaType) async throws -> [MediaSummary] {
+        let (pageToQueryNext, media) = try await movieService.fetchTrending(mediaType: mediaType, fromPage: section.pageToQueryNext)
         section.pageToQueryNext = pageToQueryNext
-        section.mediaSummaries = movies
+        return media
     }
     
-    private func fetchTrendingTVShows() async throws {
-        // Get the relevant section for trending Movies or create a new one.
+    private func section(for sectionType: Section.SectionID) -> Section {
         let section: Section
-        if let moviesSection = sections.first(where: { $0.id == .trendingTVShows }) {
-            section = moviesSection
+        if let foundSection = sections.first(where: { $0.id == sectionType }) {
+            section = foundSection
         } else {
-            section = Section(id: .trendingTVShows)
+            section = Section(id: sectionType)
             sections.append(section)
         }
-        
-        let (pageToQueryNext, movies) = try await movieService.fetchTrending(mediaType: .tv, fromPage: section.pageToQueryNext)
-        
-        section.pageToQueryNext = pageToQueryNext
-        section.mediaSummaries = movies
+        return section
     }
     
-    // MARK: CollectionView Data Source & Snapshot
+    // MARK: Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Constants.showMediaDetailSegueId,
+           let indexPath = sender as? IndexPath {
+            let detailVC = segue.destination as! MediaDetailViewController
+            let movie = dataSource.itemIdentifier(for: indexPath)
+            detailVC.mediaID = movie?.id
+            detailVC.mediaType = movie?.mediaType
+        }
+    }
+}
+
+// MARK: - CollectionView Layout, Data Source & Snapshot
+
+extension TrendingViewController {
     
     private func makeDataSource() -> TrendingDataSource {
         let dataSource = TrendingDataSource(collectionView: trendingMediaCollectionView) { collectionView, indexPath, media in
@@ -164,19 +171,9 @@ class TrendingViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
-    
-    // MARK: Navigation
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == Constants.showMediaDetailSegueId,
-           let indexPath = sender as? IndexPath {
-            let detailVC = segue.destination as! MediaDetailViewController
-            let movie = dataSource.itemIdentifier(for: indexPath)
-            detailVC.mediaID = movie?.id
-            detailVC.mediaType = movie?.mediaType
-        }
-    }
 }
+
+// MARK: - Collection View Delegate
 
 extension TrendingViewController: UICollectionViewDelegate {
     
