@@ -37,6 +37,8 @@ class TrendingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        trendingMediaCollectionView.collectionViewLayout = generateContinuousScrollingLayout()
+        
         registerCellsAndSupplementaryViews()
         applySnapshot(animatingDifferences: false)
         fetchDataFromAPI()
@@ -138,6 +140,31 @@ class TrendingViewController: UIViewController {
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
+    private func generateContinuousScrollingLayout() -> UICollectionViewLayout {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 5, bottom: 2, trailing: 0)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(120),
+                                               heightDimension: .absolute(160))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                heightDimension: .estimated(44.0))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top)
+        section.boundarySupplementaryItems = [header]
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        return layout
+    }
+    
     // MARK: Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -149,30 +176,6 @@ class TrendingViewController: UIViewController {
             detailVC.mediaType = movie?.mediaType
         }
     }
-}
-
-extension TrendingViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        sizeForCell()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-        Constants.sectionInsets
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        CGSize(width: collectionView.bounds.size.width, height: 60)
-    }
-    
-    private func sizeForCell() -> CGSize {
-        // Calculate the size for each cell.
-        Constants.sizeForCell
-    }
-    
 }
 
 extension TrendingViewController: UICollectionViewDelegate {
