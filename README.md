@@ -2,7 +2,7 @@
 Cinematic lets you browse trending movies and TV shows from the popular [The Movie Database](https://www.themoviedb.org/).
 
 # Description
-Cinemait is a simple browsing application.
+Cinematic is a simple browsing application.
 - It uses the modern async/await syntax to download data from [TMDB API](https://www.themoviedb.org/settings/api).
 - It uses [SDWebImage](https://github.com/SDWebImage/SDWebImage) to load images asynchronously.
 - You can search for your favorite movies, TV Shows and actors/actresses.
