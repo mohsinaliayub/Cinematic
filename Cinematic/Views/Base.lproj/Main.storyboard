@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sPh-Uh-jBo">
-                                <rect key="frame" x="0.0" y="155" width="393" height="663"/>
+                                <rect key="frame" x="0.0" y="103" width="393" height="715"/>
                                 <color key="backgroundColor" name="background-color"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="2sK-g0-jDF">
                                     <size key="itemSize" width="128" height="128"/>
@@ -72,8 +72,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="5BF-RZ-J6w" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="sMC-ys-hZB">
-                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="sMC-ys-hZB">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" name="background-color"/>
                     </navigationBar>

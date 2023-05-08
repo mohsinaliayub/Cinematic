@@ -29,7 +29,10 @@ enum CinematicURL {
             
             return components?.url
         case .detail(let mediaType, let id):
-            return url(with: "/\(mediaType.rawValue)/\(id)")?.url
+            var components = url(with: "/\(mediaType.rawValue)/\(id)")
+            components?.addQueryItem(withName: "append_to_response", andValue: "credits")
+            
+            return components?.url
         }
     }
     

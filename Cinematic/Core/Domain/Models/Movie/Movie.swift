@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Movie: Codable {
+struct Movie: Decodable {
     let id: Int
     let title: String
     let overview: String
@@ -15,10 +15,11 @@ struct Movie: Codable {
     let genres: [Genre]
     let adult: Bool
     let originalLanguage: String
-    let backdropPath: String
-    let posterPath: String
+    private let backdropPath: String
+    private let posterPath: String
     let releaseDateString: String
     let runtimeInMinutes: Int
+    let credits: Credits
     
     var backdropPathURL: URL? {
         URL(string: Constants.APIConstants.baseURLForImages + backdropPath)
@@ -42,6 +43,6 @@ struct Movie: Codable {
         case posterPath = "poster_path"
         case releaseDateString = "release_date"
         case runtimeInMinutes = "runtime"
-        case id, title, overview, status, genres, adult
+        case id, title, overview, status, genres, adult, credits
     }
 }

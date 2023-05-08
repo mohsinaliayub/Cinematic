@@ -8,7 +8,6 @@
 import Foundation
 
 struct Credits: Decodable {
-    let id: Int
     let cast: [Cast]
     let crew: [Crew]
 }

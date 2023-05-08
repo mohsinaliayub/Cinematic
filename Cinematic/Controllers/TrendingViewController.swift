@@ -103,6 +103,7 @@ class TrendingViewController: UIViewController {
            let indexPath = sender as? IndexPath {
             let detailVC = segue.destination as! MediaDetailViewController
             let movie = dataSource.itemIdentifier(for: indexPath)
+            detailVC.movieService = movieService
             detailVC.mediaID = movie?.id
             detailVC.mediaType = movie?.mediaType
         }
