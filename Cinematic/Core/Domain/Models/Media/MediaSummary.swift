@@ -23,7 +23,8 @@ struct MediaSummary: Identifiable {
     
     var releaseDateString: String? {
         guard let date = releaseDate else { return nil }
-        return monthDayYearFormatter.string(from: date)
+//        return monthDayYearFormatter.string(from: date)
+        return yearFormatter.string(from: date)
     }
     
     private var monthDayYearFormatter: DateFormatter = {
@@ -35,6 +36,12 @@ struct MediaSummary: Identifiable {
     private var shortDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-mm-dd"
+        return formatter
+    }()
+    
+    private var yearFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy"
         return formatter
     }()
     
