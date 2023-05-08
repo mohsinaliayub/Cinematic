@@ -55,7 +55,7 @@ extension MediaSummary: Decodable {
         title = try container.decodeIfPresent(String.self, forKey: .title)
         name = try container.decodeIfPresent(String.self, forKey: .name)
         overview = try container.decode(String.self, forKey: .overview)
-        mediaType = try container.decode(MediaType.self, forKey: .mediaType)
+        mediaType = try container.decodeIfPresent(MediaType.self, forKey: .mediaType) ?? .movie
         let backdropImage = try container.decode(String.self, forKey: .backdropURL)
         let posterImage = try container.decode(String.self, forKey: .posterURL)
         

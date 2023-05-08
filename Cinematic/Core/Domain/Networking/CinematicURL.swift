@@ -17,6 +17,7 @@ enum MovieResultType {
 enum CinematicURL {
     case trending(mediaType: MediaType, page: Int?)
     case detail(for: MediaType, id: MovieID)
+    case popular
     
     var url: URL? {
         switch self {
@@ -33,6 +34,10 @@ enum CinematicURL {
             components?.addQueryItem(withName: "append_to_response", andValue: "credits")
             
             return components?.url
+            
+        case .popular:
+            return url(with: "/movie/popular")?.url
+            
         }
     }
     

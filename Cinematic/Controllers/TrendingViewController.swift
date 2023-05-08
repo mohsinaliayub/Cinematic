@@ -10,6 +10,7 @@ import UIKit
 class TrendingViewController: UIViewController {
     enum Constants {
         static let mediaCell = "MediaCell"
+        static let popularCell = "PopularMediaCell"
         static let sectionHeader = "SectionHeaderView"
         static let sizeForCell = CGSize(width: 120, height: 160)
         static let sectionInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
@@ -37,7 +38,7 @@ class TrendingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        trendingMediaCollectionView.collectionViewLayout = generateContinuousScrollingLayout()
+        trendingMediaCollectionView.collectionViewLayout = generateCollectionViewLayout()
         
         registerCellsAndSupplementaryViews()
         applySnapshot(animatingDifferences: false)
@@ -50,6 +51,9 @@ class TrendingViewController: UIViewController {
         var nib = UINib(nibName: Constants.mediaCell, bundle: nil)
         trendingMediaCollectionView.register(nib, forCellWithReuseIdentifier: Constants.mediaCell)
         
+        nib = UINib(nibName: Constants.popularCell, bundle: nil)
+        trendingMediaCollectionView.register(nib, forCellWithReuseIdentifier: Constants.popularCell)
+        
         // register header view
         nib = UINib(nibName: Constants.sectionHeader, bundle: nil)
         trendingMediaCollectionView
@@ -61,13 +65,16 @@ class TrendingViewController: UIViewController {
     private func fetchDataFromAPI() {
         Task {
             do {
+                let popularSection = section(for: .popular)
                 let moviesSection = section(for: .trendingMovies)
                 let tvSection = section(for: .trendingTVShows)
                 
+                async let popularMovies = try await movieService.fetchPopularMovies()
                 async let trendingMovies = try await fetchTrending(for: moviesSection, withMediaType: .movie)
                 async let trendingTVShows = try await fetchTrending(for: tvSection, withMediaType: .tv)
                 
-                let (movies, tvs) = try await (trendingMovies, trendingTVShows)
+                let (popular, movies, tvs) = try await (popularMovies, trendingMovies, trendingTVShows)
+                popularSection.mediaSummaries = popular
                 moviesSection.mediaSummaries = movies
                 tvSection.mediaSummaries = tvs
                 
@@ -116,10 +123,21 @@ extension TrendingViewController {
     
     private func makeDataSource() -> TrendingDataSource {
         let dataSource = TrendingDataSource(collectionView: trendingMediaCollectionView) { collectionView, indexPath, media in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.mediaCell, for: indexPath) as? MediaCell
             
-            cell?.display(mediaSummary: media)
-            return cell
+            let section = self.sections[indexPath.section]
+            switch section.id {
+            case .popular:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.popularCell,
+                                                              for: indexPath) as? PopularMediaCell
+                cell?.setMedia(media)
+                return cell
+                
+            case .trendingMovies, .trendingTVShows:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.mediaCell, for: indexPath) as? MediaCell
+                
+                cell?.display(mediaSummary: media)
+                return cell
+            }
         }
         
         // set the header view
@@ -131,6 +149,7 @@ extension TrendingViewController {
                                                   for: indexPath) as? SectionHeaderView
             let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
             headerView?.set(label: section.title)
+            headerView?.isHidden = section.id == .popular
             
             return headerView
         }
@@ -148,7 +167,49 @@ extension TrendingViewController {
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
-    private func generateContinuousScrollingLayout() -> UICollectionViewLayout {
+    private func generateCollectionViewLayout() -> UICollectionViewLayout {
+        let collectionViewLayout = UICollectionViewCompositionalLayout {
+            sectionIndex, layoutEnvironment in
+            
+            let section = self.sections[sectionIndex]
+            switch section.id {
+            case .trendingMovies, .trendingTVShows:
+                return self.generateContinuousScrollingSection()
+            case .popular:
+                return self.generatePopularMoviesSection()
+            }
+        }
+        
+        return collectionViewLayout
+    }
+    
+    private func generatePopularMoviesSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 2.5, leading: 2.5,
+                                                     bottom: 2.5, trailing: 2.5)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95),
+                                               heightDimension: .fractionalWidth(9 / 16))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                       subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPaging
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                heightDimension: .estimated(44.0))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top)
+        section.boundarySupplementaryItems = [header]
+        
+        return section
+    }
+    
+    private func generateContinuousScrollingSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -169,8 +230,7 @@ extension TrendingViewController {
             alignment: .top)
         section.boundarySupplementaryItems = [header]
         
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
+        return section
     }
 }
 
