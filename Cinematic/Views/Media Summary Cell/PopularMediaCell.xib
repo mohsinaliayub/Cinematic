@@ -20,8 +20,9 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7OS-5W-1gS">
                         <rect key="frame" x="0.0" y="0.0" width="459" height="212"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xc7-Uw-NuL">
-                        <rect key="frame" x="16" y="155" width="427" height="41"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="Xc7-Uw-NuL">
+                        <rect key="frame" x="0.0" y="171" width="459" height="41"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="30"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
@@ -31,10 +32,10 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="7OS-5W-1gS" secondAttribute="bottom" id="ArM-Sn-SaW"/>
-                <constraint firstAttribute="trailing" secondItem="Xc7-Uw-NuL" secondAttribute="trailing" constant="16" id="SrO-MA-pDR"/>
+                <constraint firstAttribute="trailing" secondItem="Xc7-Uw-NuL" secondAttribute="trailing" id="SrO-MA-pDR"/>
                 <constraint firstItem="7OS-5W-1gS" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Z9n-gZ-6zn"/>
-                <constraint firstItem="Xc7-Uw-NuL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="h8b-7t-QS7"/>
-                <constraint firstAttribute="bottom" secondItem="Xc7-Uw-NuL" secondAttribute="bottom" constant="16" id="nKN-Rn-QBw"/>
+                <constraint firstItem="Xc7-Uw-NuL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="h8b-7t-QS7"/>
+                <constraint firstAttribute="bottom" secondItem="Xc7-Uw-NuL" secondAttribute="bottom" id="nKN-Rn-QBw"/>
                 <constraint firstAttribute="trailing" secondItem="7OS-5W-1gS" secondAttribute="trailing" id="rYY-A8-W32"/>
                 <constraint firstItem="7OS-5W-1gS" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="yZF-uJ-AWc"/>
             </constraints>
