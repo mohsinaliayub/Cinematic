@@ -51,7 +51,7 @@
             </objects>
             <point key="canvasLocation" x="818" y="318"/>
         </scene>
-        <!--Top Rated View Controller-->
+        <!--Popular-->
         <scene sceneID="jYn-b9-Pcw">
             <objects>
                 <viewController id="bqj-1k-nHd" customClass="TopRatedViewController" customModule="Cinematic" customModuleProvider="target" sceneMemberID="viewController">
@@ -59,8 +59,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="glass_onion_poster" translatesAutoresizingMaskIntoConstraints="NO" id="7tF-5L-UrI">
+                                <rect key="frame" x="0.0" y="59" width="393" height="710"/>
+                            </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WGj-A0-9Mu">
-                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="710"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3Tw-b5-EVG">
                                     <size key="itemSize" width="128" height="128"/>
@@ -76,12 +79,18 @@
                         <constraints>
                             <constraint firstItem="WGj-A0-9Mu" firstAttribute="top" secondItem="4st-aO-Bzv" secondAttribute="top" id="AO9-Hd-piY"/>
                             <constraint firstItem="4st-aO-Bzv" firstAttribute="bottom" secondItem="WGj-A0-9Mu" secondAttribute="bottom" id="FFN-xe-GRD"/>
+                            <constraint firstItem="7tF-5L-UrI" firstAttribute="bottom" secondItem="4st-aO-Bzv" secondAttribute="bottom" id="Fih-4l-wUa"/>
                             <constraint firstItem="4st-aO-Bzv" firstAttribute="trailing" secondItem="WGj-A0-9Mu" secondAttribute="trailing" id="I4R-tH-BxW"/>
+                            <constraint firstItem="4st-aO-Bzv" firstAttribute="trailing" secondItem="7tF-5L-UrI" secondAttribute="trailing" id="JM1-MY-8tH"/>
+                            <constraint firstItem="7tF-5L-UrI" firstAttribute="top" secondItem="4st-aO-Bzv" secondAttribute="top" id="K8k-jx-xNf"/>
+                            <constraint firstItem="7tF-5L-UrI" firstAttribute="leading" secondItem="4st-aO-Bzv" secondAttribute="leading" id="MOF-dj-zb9"/>
                             <constraint firstItem="WGj-A0-9Mu" firstAttribute="leading" secondItem="4st-aO-Bzv" secondAttribute="leading" id="anQ-AL-Bbk"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Popular" image="flame" catalog="system" id="oqV-Db-bNG"/>
                     <navigationItem key="navigationItem" id="u4c-l2-Qa4"/>
                     <connections>
+                        <outlet property="backgroundImage" destination="7tF-5L-UrI" id="Srq-S5-NsH"/>
                         <outlet property="collectionView" destination="WGj-A0-9Mu" id="7ZX-36-0X1"/>
                     </connections>
                 </viewController>
@@ -101,8 +110,8 @@
                     </tabBar>
                     <connections>
                         <segue destination="5BF-RZ-J6w" kind="relationship" relationship="viewControllers" id="QiX-0v-oy6"/>
-                        <segue destination="afB-Sq-AOv" kind="relationship" relationship="viewControllers" id="uEa-Wx-P2N"/>
                         <segue destination="g4P-sh-Hfv" kind="relationship" relationship="viewControllers" id="ZpL-2R-SJ7"/>
+                        <segue destination="bqj-1k-nHd" kind="relationship" relationship="viewControllers" id="nXj-bG-zwO"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cha-Ay-z9Z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -180,28 +189,10 @@
             </objects>
             <point key="canvasLocation" x="-11" y="1746"/>
         </scene>
-        <!--Top Rated-->
-        <scene sceneID="wy7-DE-9uT">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="afB-Sq-AOv" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Top Rated" image="flame.fill" catalog="system" id="Nzn-BK-Ggw"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Fex-fy-YA1">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="bqj-1k-nHd" kind="relationship" relationship="rootViewController" id="HqX-Nm-uSg"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sqC-1e-Tw7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-11" y="1013"/>
-        </scene>
     </scenes>
     <resources>
-        <image name="flame.fill" catalog="system" width="106" height="128"/>
+        <image name="flame" catalog="system" width="106" height="128"/>
+        <image name="glass_onion_poster" width="1482" height="2222"/>
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <namedColor name="background-color">

@@ -8,6 +8,10 @@
 import UIKit
 import SDWebImage
 
+protocol TopRatedMediaCellDelegate: AnyObject {
+    func poster(url: URL?)
+}
+
 class TopRatedMediaCell: UICollectionViewCell {
     
     @IBOutlet weak var posterImageView: UIImageView!
@@ -15,6 +19,8 @@ class TopRatedMediaCell: UICollectionViewCell {
     @IBOutlet weak var runtimeLabel: UILabel!
     @IBOutlet weak var releaseDateLabel: UILabel!
     @IBOutlet weak var directorLabel: UILabel!
+    
+    var delegate: TopRatedMediaCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,6 +31,8 @@ class TopRatedMediaCell: UICollectionViewCell {
         titleLabel.text = media.label
         releaseDateLabel.text = media.releaseDateString
         posterImageView.sd_setImage(with: media.posterURL)
+        
+        delegate?.poster(url: media.posterURL)
     }
     
 }

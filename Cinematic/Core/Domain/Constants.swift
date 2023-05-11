@@ -10,7 +10,7 @@ import UIKit
 enum Constants {
     enum APIConstants {
         /// Cinematic API Key (v3).
-        static let apiKey = "PUT YOUR API KEY HERE"
+        static let apiKey = ""
         /// Base URL for all the queries against The Movie DB API, except for images.
         static let baseURL = "https://api.themoviedb.org/3"
         /// Base URL for image requests.

@@ -18,6 +18,7 @@ class TopRatedViewController: UIViewController {
     typealias TopRatedDataSource = UICollectionViewDiffableDataSource<TopRatedSection, MediaSummary>
     typealias TopRatedSnapshot = NSDiffableDataSourceSnapshot<TopRatedSection, MediaSummary>
 
+    @IBOutlet private weak var backgroundImage: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             collectionView.collectionViewLayout = collectionViewLayout()
@@ -67,6 +68,7 @@ extension TopRatedViewController {
                                      for: indexPath) as? TopRatedMediaCell
             
             cell?.setMedia(mediaSummary)
+            cell?.delegate = self
             return cell
         }
         
@@ -95,7 +97,7 @@ extension TopRatedViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9),
                                                heightDimension: .fractionalHeight(1.0))
@@ -108,6 +110,8 @@ extension TopRatedViewController {
     
 }
 
-extension TopRatedViewController: UICollectionViewDelegate {
-    
+extension TopRatedViewController: TopRatedMediaCellDelegate {
+    func poster(url: URL?) {
+        backgroundImage.sd_setImage(with: url)
+    }
 }
