@@ -65,18 +65,26 @@ class TrendingViewController: UIViewController {
     private func fetchDataFromAPI() {
         Task {
             do {
+                
                 let popularSection = section(for: .popular)
-                let moviesSection = section(for: .trendingMovies)
-                let tvSection = section(for: .trendingTVShows)
+//                let moviesSection = section(for: .trendingMovies)
+//                let tvSection = section(for: .trendingTVShows)
+//
+//                async let popularMovies = try await movieService.fetchPopularMovies()
+//                async let trendingMovies = try await fetchTrending(for: moviesSection, withMediaType: .movie)
+//                async let trendingTVShows = try await fetchTrending(for: tvSection, withMediaType: .tv)
+//
+//                let (popular, movies, tvs) = try await (popularMovies, trendingMovies, trendingTVShows)
+//                popularSection.mediaSummaries = popular
+//                moviesSection.mediaSummaries = movies
+//                tvSection.mediaSummaries = tvs
                 
-                async let popularMovies = try await movieService.fetchPopularMovies()
-                async let trendingMovies = try await fetchTrending(for: moviesSection, withMediaType: .movie)
-                async let trendingTVShows = try await fetchTrending(for: tvSection, withMediaType: .tv)
+                async let genresRequest: () = try await GenreService.shared.fetchGenres()
+                async let popularMoviesRequest = try await movieService.fetchPopularMovies()
                 
-                let (popular, movies, tvs) = try await (popularMovies, trendingMovies, trendingTVShows)
-                popularSection.mediaSummaries = popular
-                moviesSection.mediaSummaries = movies
-                tvSection.mediaSummaries = tvs
+                let (popularMovies, _) = try await (popularMoviesRequest, genresRequest)
+                
+                popularSection.mediaSummaries = popularMovies
                 
                 // reload the data
                 applySnapshot()
@@ -149,7 +157,6 @@ extension TrendingViewController {
                                                   for: indexPath) as? SectionHeaderView
             let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
             headerView?.set(label: section.title)
-            headerView?.isHidden = section.id == .popular
             
             return headerView
         }
@@ -172,18 +179,29 @@ extension TrendingViewController {
             sectionIndex, layoutEnvironment in
             
             let section = self.sections[sectionIndex]
+            let layoutSection: NSCollectionLayoutSection
             switch section.id {
             case .trendingMovies, .trendingTVShows:
-                return self.generateContinuousScrollingSection()
+                layoutSection = self.smallImageTitleAndGenreSection
             case .popular:
-                return self.generatePopularMoviesSection()
+                layoutSection = self.wideImageTitleAndGenreSection
             }
+            
+            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                    heightDimension: .estimated(44.0))
+            let header = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top)
+            layoutSection.boundarySupplementaryItems = [header]
+            
+            return layoutSection
         }
         
         return collectionViewLayout
     }
     
-    private func generatePopularMoviesSection() -> NSCollectionLayoutSection {
+    private var wideImageTitleAndGenreSection: NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -191,25 +209,18 @@ extension TrendingViewController {
                                                      bottom: 2.5, trailing: 2.5)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95),
-                                               heightDimension: .fractionalWidth(9 / 16))
+                                               heightDimension: .fractionalWidth(0.73))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitems: [item])
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 5, trailing: 0)
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
         
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                heightDimension: .estimated(44.0))
-        let header = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top)
-        section.boundarySupplementaryItems = [header]
-        
         return section
     }
     
-    private func generateContinuousScrollingSection() -> NSCollectionLayoutSection {
+    private var smallImageTitleAndGenreSection: NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -221,14 +232,6 @@ extension TrendingViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
-        
-        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                heightDimension: .estimated(44.0))
-        let header = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: headerSize,
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top)
-        section.boundarySupplementaryItems = [header]
         
         return section
     }

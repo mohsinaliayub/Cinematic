@@ -16,8 +16,8 @@ class Section {
         var title: String {
             switch self {
             case .trendingMovies: return "Trending Movies"
-            case .trendingTVShows: return "Trending TV Shows"
-            case .popular: return "Popular"
+            case .trendingTVShows: return "TV Shows"
+            case .popular: return "Popular movies"
             }
         }
     }

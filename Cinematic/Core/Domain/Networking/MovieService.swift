@@ -12,9 +12,6 @@ protocol MovieFetcher {
     /// The URL holder for TMDB API.
     var cinematicURL: CinematicURL? { get set}
     
-    /// The API returns results in pages. Keeps track of the next page to query.
-    var trendingNowPageToQueryNext: Int? { get set }
-    
     /// Fetch weekly trending media type from TMDB API.
     func fetchTrending(mediaType: MediaType, fromPage: Int?) async throws -> (pageToQueryNext: Int?, medias: [MediaSummary])
     
@@ -30,7 +27,6 @@ class CinematicMovieService: MovieFetcher {
     
     public var trendingMovies: [MediaSummary]
     
-    var trendingNowPageToQueryNext: Int?
     var cinematicURL: CinematicURL?
     
     init() {
@@ -76,6 +72,7 @@ class CinematicMovieService: MovieFetcher {
         _ = try responseIsSuccessful(response)
         
         let mediaResult = try JSONDecoder().decode(MediaResult.self, from: data)
+        
         return mediaResult.results
     }
     

@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sPh-Uh-jBo">
-                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
+                                <rect key="frame" x="16" y="103" width="361" height="666"/>
                                 <color key="backgroundColor" name="background-color"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="2sK-g0-jDF">
                                     <size key="itemSize" width="128" height="128"/>
@@ -35,8 +35,8 @@
                         <viewLayoutGuide key="safeArea" id="QoP-kl-R7o"/>
                         <color key="backgroundColor" name="background-color"/>
                         <constraints>
-                            <constraint firstItem="QoP-kl-R7o" firstAttribute="trailing" secondItem="sPh-Uh-jBo" secondAttribute="trailing" id="1MX-Gj-tF4"/>
-                            <constraint firstItem="sPh-Uh-jBo" firstAttribute="leading" secondItem="QoP-kl-R7o" secondAttribute="leading" id="B9V-4T-oCk"/>
+                            <constraint firstItem="QoP-kl-R7o" firstAttribute="trailing" secondItem="sPh-Uh-jBo" secondAttribute="trailing" constant="16" id="1MX-Gj-tF4"/>
+                            <constraint firstItem="sPh-Uh-jBo" firstAttribute="leading" secondItem="QoP-kl-R7o" secondAttribute="leading" constant="16" id="B9V-4T-oCk"/>
                             <constraint firstItem="sPh-Uh-jBo" firstAttribute="top" secondItem="QoP-kl-R7o" secondAttribute="top" id="dTX-pO-fzn"/>
                             <constraint firstItem="QoP-kl-R7o" firstAttribute="bottom" secondItem="sPh-Uh-jBo" secondAttribute="bottom" id="ncd-oP-7bV"/>
                         </constraints>
@@ -59,11 +59,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="glass_onion_poster" translatesAutoresizingMaskIntoConstraints="NO" id="7tF-5L-UrI">
-                                <rect key="frame" x="0.0" y="59" width="393" height="710"/>
-                            </imageView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="WGj-A0-9Mu">
-                                <rect key="frame" x="0.0" y="59" width="393" height="710"/>
+                                <rect key="frame" x="16" y="59" width="361" height="710"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3Tw-b5-EVG">
                                     <size key="itemSize" width="128" height="128"/>
@@ -79,18 +76,13 @@
                         <constraints>
                             <constraint firstItem="WGj-A0-9Mu" firstAttribute="top" secondItem="4st-aO-Bzv" secondAttribute="top" id="AO9-Hd-piY"/>
                             <constraint firstItem="4st-aO-Bzv" firstAttribute="bottom" secondItem="WGj-A0-9Mu" secondAttribute="bottom" id="FFN-xe-GRD"/>
-                            <constraint firstItem="7tF-5L-UrI" firstAttribute="bottom" secondItem="4st-aO-Bzv" secondAttribute="bottom" id="Fih-4l-wUa"/>
-                            <constraint firstItem="4st-aO-Bzv" firstAttribute="trailing" secondItem="WGj-A0-9Mu" secondAttribute="trailing" id="I4R-tH-BxW"/>
-                            <constraint firstItem="4st-aO-Bzv" firstAttribute="trailing" secondItem="7tF-5L-UrI" secondAttribute="trailing" id="JM1-MY-8tH"/>
-                            <constraint firstItem="7tF-5L-UrI" firstAttribute="top" secondItem="4st-aO-Bzv" secondAttribute="top" id="K8k-jx-xNf"/>
-                            <constraint firstItem="7tF-5L-UrI" firstAttribute="leading" secondItem="4st-aO-Bzv" secondAttribute="leading" id="MOF-dj-zb9"/>
-                            <constraint firstItem="WGj-A0-9Mu" firstAttribute="leading" secondItem="4st-aO-Bzv" secondAttribute="leading" id="anQ-AL-Bbk"/>
+                            <constraint firstItem="4st-aO-Bzv" firstAttribute="trailing" secondItem="WGj-A0-9Mu" secondAttribute="trailing" constant="16" id="I4R-tH-BxW"/>
+                            <constraint firstItem="WGj-A0-9Mu" firstAttribute="leading" secondItem="4st-aO-Bzv" secondAttribute="leading" constant="16" id="anQ-AL-Bbk"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Popular" image="flame" catalog="system" id="oqV-Db-bNG"/>
                     <navigationItem key="navigationItem" id="u4c-l2-Qa4"/>
                     <connections>
-                        <outlet property="backgroundImage" destination="7tF-5L-UrI" id="Srq-S5-NsH"/>
                         <outlet property="collectionView" destination="WGj-A0-9Mu" id="7ZX-36-0X1"/>
                     </connections>
                 </viewController>
@@ -192,7 +184,6 @@
     </scenes>
     <resources>
         <image name="flame" catalog="system" width="106" height="128"/>
-        <image name="glass_onion_poster" width="1482" height="2222"/>
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <namedColor name="background-color">

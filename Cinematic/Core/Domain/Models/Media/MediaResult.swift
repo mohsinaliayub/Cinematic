@@ -11,7 +11,7 @@ struct MediaResult: Decodable {
     let page: Int
     let totalPages: Int
     let totalResults: Int
-    let results: [MediaSummary]
+    var results: [MediaSummary]
     
     enum CodingKeys: String, CodingKey {
         case totalPages = "total_pages"

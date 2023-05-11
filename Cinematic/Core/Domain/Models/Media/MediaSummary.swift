@@ -15,7 +15,9 @@ struct MediaSummary: Identifiable {
     let backdropURL: URL?
     let posterURL: URL?
     let mediaType: MediaType
+    let genreIds: [Int]
     private let releaseDate: Date?
+    var genres: [Genre] = []
     
     var label: String? {
         title ?? name
@@ -51,6 +53,7 @@ struct MediaSummary: Identifiable {
         case backdropURL = "backdrop_path"
         case posterURL = "poster_path"
         case mediaType = "media_type"
+        case genreIds = "genre_ids"
     }
 }
 
@@ -63,6 +66,7 @@ extension MediaSummary: Decodable {
         name = try container.decodeIfPresent(String.self, forKey: .name)
         overview = try container.decode(String.self, forKey: .overview)
         mediaType = try container.decodeIfPresent(MediaType.self, forKey: .mediaType) ?? .movie
+        genreIds = try container.decodeIfPresent([Int].self, forKey: .genreIds) ?? []
         let backdropImage = try container.decode(String.self, forKey: .backdropURL)
         let posterImage = try container.decode(String.self, forKey: .posterURL)
         
