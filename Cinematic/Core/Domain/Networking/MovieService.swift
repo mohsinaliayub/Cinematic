@@ -20,6 +20,8 @@ protocol MovieFetcher {
     
     /// Fetch popular movies from TMDB API.
     func fetchPopularMovies() async throws -> [MediaSummary]
+    
+    func fetchUpcomingMovies() async throws -> [MediaSummary]
 }
 
 class CinematicMovieService: MovieFetcher {
@@ -62,6 +64,22 @@ class CinematicMovieService: MovieFetcher {
     
     func fetchPopularMovies() async throws -> [MediaSummary] {
         cinematicURL = .popular
+        
+        // Get url or throw url error.
+        guard let url = cinematicURL?.url else {
+            throw NetworkRequestError.urlError
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        _ = try responseIsSuccessful(response)
+        
+        let mediaResult = try JSONDecoder().decode(MediaResult.self, from: data)
+        
+        return mediaResult.results
+    }
+    
+    func fetchUpcomingMovies() async throws -> [MediaSummary] {
+        cinematicURL = .upcomingMovies
         
         // Get url or throw url error.
         guard let url = cinematicURL?.url else {

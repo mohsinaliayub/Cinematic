@@ -9,15 +9,15 @@ import Foundation
 
 class Section {
     enum SectionID: Int {
-        case trendingMovies
         case trendingTVShows
         case popular
+        case upcomingMovies
         
         var title: String {
             switch self {
-            case .trendingMovies: return "Trending Movies"
             case .trendingTVShows: return "TV Shows"
             case .popular: return "Popular movies"
+            case .upcomingMovies: return "Upcoming movies"
             }
         }
     }

@@ -19,6 +19,7 @@ enum CinematicURL {
     case detail(for: MediaType, id: MovieID)
     case popular
     case genre(for: MediaType)
+    case upcomingMovies
     
     var url: URL? {
         switch self {
@@ -41,6 +42,9 @@ enum CinematicURL {
             
         case .genre(let mediaType):
             return url(with: "/genre/\(mediaType)/list")?.url
+            
+        case .upcomingMovies:
+            return url(with: "/movie/upcoming")?.url
             
         }
     }

@@ -1,5 +1,5 @@
 //
-//  TrendingViewController.swift
+//  HomeViewController.swift
 //  Cinematic
 //
 //  Created by Mohsin Ali Ayub on 27.04.23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TrendingViewController: UIViewController {
+class HomeViewController: UIViewController {
     enum Constants {
         static let mediaCell = "MediaCell"
         static let popularCell = "PopularMediaCell"
@@ -67,24 +67,20 @@ class TrendingViewController: UIViewController {
             do {
                 
                 let popularSection = section(for: .popular)
-//                let moviesSection = section(for: .trendingMovies)
-//                let tvSection = section(for: .trendingTVShows)
-//
-//                async let popularMovies = try await movieService.fetchPopularMovies()
-//                async let trendingMovies = try await fetchTrending(for: moviesSection, withMediaType: .movie)
-//                async let trendingTVShows = try await fetchTrending(for: tvSection, withMediaType: .tv)
-//
-//                let (popular, movies, tvs) = try await (popularMovies, trendingMovies, trendingTVShows)
-//                popularSection.mediaSummaries = popular
-//                moviesSection.mediaSummaries = movies
-//                tvSection.mediaSummaries = tvs
+                let upcomingMoviesSection = section(for: .upcomingMovies)
+                let tvSection = section(for: .trendingTVShows)
+
+                async let trendingTVShows = try await fetchTrending(for: tvSection, withMediaType: .tv)
                 
                 async let genresRequest: () = try await GenreService.shared.fetchGenres()
                 async let popularMoviesRequest = try await movieService.fetchPopularMovies()
+                async let upcomingMoviesRequest = try await movieService.fetchUpcomingMovies()
                 
-                let (popularMovies, _) = try await (popularMoviesRequest, genresRequest)
+                let (popularMovies, upcomingMovies, trendingTVs, _) = try await (popularMoviesRequest, upcomingMoviesRequest, trendingTVShows, genresRequest)
                 
                 popularSection.mediaSummaries = popularMovies
+                upcomingMoviesSection.mediaSummaries = upcomingMovies
+                tvSection.mediaSummaries = trendingTVs
                 
                 // reload the data
                 applySnapshot()
@@ -127,7 +123,7 @@ class TrendingViewController: UIViewController {
 
 // MARK: - CollectionView Layout, Data Source & Snapshot
 
-extension TrendingViewController {
+extension HomeViewController {
     
     private func makeDataSource() -> TrendingDataSource {
         let dataSource = TrendingDataSource(collectionView: trendingMediaCollectionView) { collectionView, indexPath, media in
@@ -140,7 +136,7 @@ extension TrendingViewController {
                 cell?.setMedia(media)
                 return cell
                 
-            case .trendingMovies, .trendingTVShows:
+            case .trendingTVShows, .upcomingMovies:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.mediaCell, for: indexPath) as? MediaCell
                 
                 cell?.display(mediaSummary: media)
@@ -181,7 +177,7 @@ extension TrendingViewController {
             let section = self.sections[sectionIndex]
             let layoutSection: NSCollectionLayoutSection
             switch section.id {
-            case .trendingMovies, .trendingTVShows:
+            case .trendingTVShows, .upcomingMovies:
                 layoutSection = self.smallImageTitleAndGenreSection
             case .popular:
                 layoutSection = self.wideImageTitleAndGenreSection
@@ -194,6 +190,8 @@ extension TrendingViewController {
                 elementKind: UICollectionView.elementKindSectionHeader,
                 alignment: .top)
             layoutSection.boundarySupplementaryItems = [header]
+            layoutSection.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16,
+                                                                  bottom: 8, trailing: 0)
             
             return layoutSection
         }
@@ -205,14 +203,12 @@ extension TrendingViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 2.5, leading: 2.5,
-                                                     bottom: 2.5, trailing: 2.5)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.95),
-                                               heightDimension: .fractionalWidth(0.73))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.86),
+                                               heightDimension: .fractionalWidth(0.71))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitems: [item])
-        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 5, trailing: 0)
+        group.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15)
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
@@ -224,7 +220,7 @@ extension TrendingViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 5, bottom: 2, trailing: 0)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 5, bottom: 2, trailing: 5)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(120),
                                                heightDimension: .absolute(160))
@@ -239,7 +235,7 @@ extension TrendingViewController {
 
 // MARK: - Collection View Delegate
 
-extension TrendingViewController: UICollectionViewDelegate {
+extension HomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: Constants.showMediaDetailSegueId, sender: indexPath)
