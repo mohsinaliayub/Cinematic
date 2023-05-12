@@ -11,7 +11,7 @@ Cinematic is a simple browsing application.
 # Set Up
 To use this app, you will need to obtain an API key from [TMDB API](https://www.themoviedb.org/settings/api).
 
-After obtaining the **API key**, go to [Constants.swift](/Cinematic/Core/Domain/Constants.swift) and paste the API key in **apiKey** property.
+After obtaining the **API key**, go to [Constants.swift](/CinematicAPI/CinematicAPI/Core/Constants.swift) and paste the API key in **apiKey** property.
 
 ```swift
 enum Constants {
@@ -28,10 +28,10 @@ enum Constants {
 The progress history of tasks being performed for the application:
 - [x] Download trending movies and TV shows.
 - [x] Use compositional layout to display the items
-- [ ] Show the detail for selected movie and tv show
+- [X] Show the detail for selected movie and tv show
 - [ ] Provide search option to search and filter the movies and tv shows.
 - [ ] Add animations and transitions.
 
 # Screenshots
-<img src="/Screenshots/Home.png" width="231" height="500" alt="Home">
+<img src="/Screenshots/Home.png" width="231" height="500" alt="Home"> <img src="/Screenshots/MovieDetail.png" width="231" height="500" alt="Movie Details">
 
