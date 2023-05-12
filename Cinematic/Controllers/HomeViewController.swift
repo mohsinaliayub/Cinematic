@@ -19,8 +19,8 @@ class HomeViewController: UIViewController {
     }
     
     
-    private typealias TrendingDataSource = UICollectionViewDiffableDataSource<Section, MediaSummary>
-    private typealias TrendingSnapshot = NSDiffableDataSourceSnapshot<Section, MediaSummary>
+    private typealias TrendingDataSource = UICollectionViewDiffableDataSource<Section, MediaItem>
+    private typealias TrendingSnapshot = NSDiffableDataSourceSnapshot<Section, MediaItem>
     
     // Outlets
     @IBOutlet weak var trendingMediaCollectionView: UICollectionView!
@@ -29,11 +29,6 @@ class HomeViewController: UIViewController {
     
     private let movieService = CinematicMovieService()
     private var sections = [Section]()
-    private var trendingMovies = [MediaSummary]() {
-        didSet {
-            applySnapshot()
-        }
-    }
     private lazy var dataSource = makeDataSource()
     
     override func viewDidLoad() {
@@ -79,9 +74,9 @@ class HomeViewController: UIViewController {
                 
                 let (popularMovies, upcomingMovies, trendingTVs, _) = try await (popularMoviesRequest, upcomingMoviesRequest, trendingTVShows, genresRequest)
                 
-                popularSection.mediaSummaries = popularMovies
-                upcomingMoviesSection.mediaSummaries = upcomingMovies
-                tvSection.mediaSummaries = trendingTVs
+                popularSection.append(popularMovies)
+                upcomingMoviesSection.append(upcomingMovies)
+                tvSection.append(trendingTVs)
                 
                 // reload the data
                 applySnapshot()
@@ -114,7 +109,7 @@ class HomeViewController: UIViewController {
         if segue.identifier == Constants.showMediaDetailSegueId,
            let indexPath = sender as? IndexPath {
             let detailVC = segue.destination as! MediaDetailViewController
-            let movie = dataSource.itemIdentifier(for: indexPath)
+            let movie = dataSource.itemIdentifier(for: indexPath)?.item
             detailVC.movieService = movieService
             detailVC.mediaID = movie?.id
             detailVC.mediaType = movie?.mediaType
@@ -134,13 +129,13 @@ extension HomeViewController {
             case .popular:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.popularCell,
                                                               for: indexPath) as? PopularMediaCell
-                cell?.setMedia(media)
+                cell?.setMedia(media.item)
                 return cell
                 
             case .trendingTVShows, .upcomingMovies:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.mediaCell, for: indexPath) as? MediaCell
                 
-                cell?.display(mediaSummary: media)
+                cell?.display(mediaSummary: media.item)
                 return cell
             }
         }
@@ -165,7 +160,7 @@ extension HomeViewController {
         var snapshot = TrendingSnapshot()
         snapshot.appendSections(sections)
         sections.forEach { section in
-            snapshot.appendItems(section.mediaSummaries, toSection: section)
+            snapshot.appendItems(section.mediaItems, toSection: section)
         }
         
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)

@@ -29,15 +29,19 @@ public class Section {
     }
     public var pageToQueryNext: Int?
     private var items: [MediaSummary]
-    public var mediaSummaries: [MediaSummary] {
-        get { items }
-        set { items += newValue }
+    var mediaItems: [MediaItem] {
+        items.map { MediaItem(section: self, item: $0) }
     }
     
     public init(id: SectionID, pageToQueryNext: Int? = nil, mediaSummaries: [MediaSummary] = []) {
         self.id = id
         self.pageToQueryNext = pageToQueryNext
         self.items = mediaSummaries
+    }
+    
+    /// Adds items to the end of `items` array.
+    public func append(_ mediaSummaries: [MediaSummary]) {
+        items += mediaSummaries
     }
 }
 
