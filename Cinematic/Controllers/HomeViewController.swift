@@ -142,8 +142,6 @@ extension HomeViewController {
                 
                 cell?.display(mediaSummary: media)
                 return cell
-            @unknown default:
-                fatalError()
             }
         }
         
@@ -184,8 +182,6 @@ extension HomeViewController {
                 layoutSection = self.smallImageTitleAndGenreSection
             case .popular:
                 layoutSection = self.wideImageTitleAndGenreSection
-            @unknown default:
-                fatalError()
             }
             
             let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),

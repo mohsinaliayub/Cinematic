@@ -1,11 +1,12 @@
 //
 //  Section.swift
-//  CinematicAPI
+//  Cinematic
 //
 //  Created by Mohsin Ali Ayub on 12.05.23.
 //
 
 import Foundation
+import CinematicAPI
 
 public class Section {
     public enum SectionID: Int {
