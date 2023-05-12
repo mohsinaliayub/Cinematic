@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import CinematicAPI
 
 class SearchViewController: UIViewController {
 
+    var movieService: MovieFetcher!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -10,7 +10,8 @@ import CinematicAPI
 
 class CinematicTabBarController: UITabBarController {
     
-    private var movieService: MovieFetcher = CinematicMovieService()
+    private let movieService: MovieFetcher = CinematicMovieService()
+    private let genreService = GenreService()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,8 +19,12 @@ class CinematicTabBarController: UITabBarController {
         // Do any additional setup after loading the view.
         guard let vcs = viewControllers else { return }
         for controller in vcs {
-            if let topRatedVC = controller as? TopRatedViewController {
-                topRatedVC.movieService = movieService
+            guard let navController = controller as? UINavigationController else { continue }
+            
+            if let vc = navController.viewControllers.first as? HomeViewController {
+                vc.movieService = movieService
+            } else if let vc = navController.viewControllers.first as? SearchViewController {
+                vc.movieService = movieService
             }
         }
     }

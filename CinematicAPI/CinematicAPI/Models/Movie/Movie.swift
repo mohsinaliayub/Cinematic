@@ -9,27 +9,35 @@ import Foundation
 
 public struct Movie: Decodable {
     let id: Int
-    let title: String
-    let overview: String
+    public let title: String
+    public let overview: String
     let status: Status
-    let genres: [Genre]
-    let adult: Bool
-    let originalLanguage: String
+    public let genres: [Genre]
+    public let adult: Bool
+    public let originalLanguage: String
     private let backdropPath: String
     private let posterPath: String
-    let releaseDateString: String
-    let runtimeInMinutes: Int
+    private let releaseDateString: String
+    public let runtimeInMinutes: Int
+    public let rating: Double
     let credits: Credits
     
-    var backdropPathURL: URL? {
+    public var backdropPathURL: URL? {
         URL(string: Constants.APIConstants.baseURLForImages + backdropPath)
     }
     
-    var posterPathURL: URL? {
+    public var posterPathURL: URL? {
         URL(string: Constants.APIConstants.baseURLForImages + posterPath)
     }
     
-    var releaseDate: Date {
+    public var runtimeInHours: String {
+        let hours = runtimeInMinutes / 60
+        let minutes = runtimeInMinutes % 60
+        
+        return "\(hours)h\(minutes)m"
+    }
+    
+    public var releaseDate: Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.locale = Locale(identifier: "en-US")
@@ -43,6 +51,7 @@ public struct Movie: Decodable {
         case posterPath = "poster_path"
         case releaseDateString = "release_date"
         case runtimeInMinutes = "runtime"
+        case rating = "vote_average"
         case id, title, overview, status, genres, adult, credits
     }
 }

@@ -27,7 +27,7 @@ class HomeViewController: UIViewController {
     
     // properties
     
-    private let movieService = CinematicMovieService()
+    var movieService: MovieFetcher!
     private var sections = [Section]()
     private lazy var dataSource = makeDataSource()
     
