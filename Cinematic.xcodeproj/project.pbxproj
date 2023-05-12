@@ -126,7 +126,6 @@
 		68195C3128E1661A007350A3 /* Cinematic */ = {
 			isa = PBXGroup;
 			children = (
-				68C84EC729F7DC6F00780D98 /* Extensions */,
 				68195C4628E1882D007350A3 /* Core */,
 				68195C4728E1883A007350A3 /* Views */,
 				68195C4828E18842007350A3 /* Controllers */,
@@ -267,13 +266,6 @@
 				689769132A091B730045C667 /* PopularMediaCell.xib */,
 			);
 			path = "Media Summary Cell";
-			sourceTree = "<group>";
-		};
-		68C84EC729F7DC6F00780D98 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		68E48D9028E4280B00660667 /* Domain */ = {
