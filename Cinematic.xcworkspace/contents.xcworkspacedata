@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:CinematicAPI/CinematicAPI.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Cinematic.xcodeproj">
    </FileRef>
 </Workspace>
