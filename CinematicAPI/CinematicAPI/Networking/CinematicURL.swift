@@ -1,20 +1,16 @@
 //
 //  CinematicURL.swift
-//  Cinematic
+//  CinematicAPI
 //
-//  Created by Mohsin Ali Ayub on 24.04.23.
+//  Created by Mohsin Ali Ayub on 12.05.23.
 //
 
 import Foundation
 
 /// Represents a unique movie id.
-typealias MovieID = Int
+public typealias MovieID = Int
 
-enum MovieResultType {
-    case popular, details
-}
-
-enum CinematicURL {
+public enum CinematicURL {
     case trending(mediaType: MediaType, page: Int?)
     case detail(for: MediaType, id: MovieID)
     case popular

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CinematicAPI
 
 class MediaDetailViewController: UIViewController {
     

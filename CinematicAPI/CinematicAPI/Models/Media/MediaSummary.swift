@@ -1,31 +1,31 @@
 //
 //  MediaSummary.swift
-//  Cinematic
+//  CinematicAPI
 //
-//  Created by Mohsin Ali Ayub on 10.02.23.
+//  Created by Mohsin Ali Ayub on 12.05.23.
 //
 
 import Foundation
 
-struct MediaSummary: Identifiable {
-    let id: Int
+public struct MediaSummary: Identifiable {
+    public let id: Int
     private let title: String?
     private let name: String?
-    let overview: String
-    let backdropURL: URL?
-    let posterURL: URL?
-    let mediaType: MediaType
-    let genreIds: [Int]
+    public let overview: String
+    public let backdropURL: URL?
+    public let posterURL: URL?
+    public let mediaType: MediaType
+    public let genreIds: [Int]
     private let releaseDate: Date?
     var genres: [Genre] = []
     
-    var label: String? {
+    public var label: String? {
         title ?? name
     }
     
-    var releaseDateString: String? {
+    public var releaseDateString: String? {
         guard let date = releaseDate else { return nil }
-//        return monthDayYearFormatter.string(from: date)
+        //        return monthDayYearFormatter.string(from: date)
         return yearFormatter.string(from: date)
     }
     
@@ -58,7 +58,7 @@ struct MediaSummary: Identifiable {
 }
 
 extension MediaSummary: Decodable {
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         id = try container.decode(Int.self, forKey: .id)
@@ -81,11 +81,11 @@ extension MediaSummary: Decodable {
 }
 
 extension MediaSummary: Hashable {
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
     
-    static func == (lhs: MediaSummary, rhs: MediaSummary) -> Bool {
+    public static func == (lhs: MediaSummary, rhs: MediaSummary) -> Bool {
         lhs.id == rhs.id
     }
 }

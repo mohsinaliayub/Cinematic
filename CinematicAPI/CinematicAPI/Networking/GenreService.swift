@@ -1,30 +1,30 @@
 //
 //  GenreService.swift
-//  Cinematic
+//  CinematicAPI
 //
-//  Created by Mohsin Ali Ayub on 11.05.23.
+//  Created by Mohsin Ali Ayub on 12.05.23.
 //
 
 import Foundation
 
-class GenreService {
-    static let shared: GenreService = GenreService()
+public class GenreService {
+    public static let shared: GenreService = GenreService()
     
     private var cinematicURL: CinematicURL?
     private var movieGenres: [Genre]
     private var tvGenres: [Genre]
     
-    init() {
+    public init() {
         movieGenres = []; tvGenres = []
     }
     
-    func genresByIds(_ ids: [Int], for mediaType: MediaType) async throws -> [Genre] {
+    public func genresByIds(_ ids: [Int], for mediaType: MediaType) async throws -> [Genre] {
         let genres = try await fetchGenres(for: mediaType)
         
         return genres.filter { ids.contains($0.id) }
     }
     
-    func fetchGenres() async throws {
+    public func fetchGenres() async throws {
         async let movieGenresRequest = try await fetchGenres(for: .movie)
         async let tvGenresRequest = try await fetchGenres(for: .tv)
         

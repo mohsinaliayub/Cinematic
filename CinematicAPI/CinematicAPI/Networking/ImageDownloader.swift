@@ -1,8 +1,8 @@
 //
 //  ImageDownloader.swift
-//  Cinematic
+//  CinematicAPI
 //
-//  Created by Mohsin Ali Ayub on 25.04.23.
+//  Created by Mohsin Ali Ayub on 12.05.23.
 //
 
 import UIKit

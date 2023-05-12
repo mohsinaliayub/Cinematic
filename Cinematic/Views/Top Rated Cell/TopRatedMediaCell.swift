@@ -7,6 +7,7 @@
 
 import UIKit
 import SDWebImage
+import CinematicAPI
 
 protocol TopRatedMediaCellDelegate: AnyObject {
     func poster(url: URL?)

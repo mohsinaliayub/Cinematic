@@ -1,13 +1,13 @@
 //
 //  MovieService.swift
-//  Cinematic
+//  CinematicAPI
 //
-//  Created by Mohsin Ali Ayub on 24.04.23.
+//  Created by Mohsin Ali Ayub on 12.05.23.
 //
 
 import Foundation
 
-protocol MovieFetcher {
+public protocol MovieFetcher {
     
     /// The URL holder for TMDB API.
     var cinematicURL: CinematicURL? { get set}
@@ -24,18 +24,18 @@ protocol MovieFetcher {
     func fetchUpcomingMovies() async throws -> [MediaSummary]
 }
 
-class CinematicMovieService: MovieFetcher {
+public class CinematicMovieService: MovieFetcher {
     typealias MovieID = String
     
     public var trendingMovies: [MediaSummary]
     
-    var cinematicURL: CinematicURL?
+    public var cinematicURL: CinematicURL?
     
-    init() {
+    public init() {
         trendingMovies = []
     }
     
-    func fetchTrending(mediaType: MediaType, fromPage pageToQueryNext: Int?) async throws -> (pageToQueryNext: Int?, medias: [MediaSummary]) {
+    public func fetchTrending(mediaType: MediaType, fromPage pageToQueryNext: Int?) async throws -> (pageToQueryNext: Int?, medias: [MediaSummary]) {
         cinematicURL = .trending(mediaType: mediaType, page: pageToQueryNext)
         
         // Get url or throw url error.
@@ -51,7 +51,7 @@ class CinematicMovieService: MovieFetcher {
         return (mediaResult.page + 1, mediaResult.results)
     }
     
-    func fetchMovieDetails(for mediaType: MediaType, by id: Int) async throws -> Movie {
+    public func fetchMovieDetails(for mediaType: MediaType, by id: Int) async throws -> Movie {
         cinematicURL = .detail(for: mediaType, id: id)
         
         let url = try url(cinematicURL?.url)
@@ -62,7 +62,7 @@ class CinematicMovieService: MovieFetcher {
         return movie
     }
     
-    func fetchPopularMovies() async throws -> [MediaSummary] {
+    public func fetchPopularMovies() async throws -> [MediaSummary] {
         cinematicURL = .popular
         
         // Get url or throw url error.
@@ -78,7 +78,7 @@ class CinematicMovieService: MovieFetcher {
         return mediaResult.results
     }
     
-    func fetchUpcomingMovies() async throws -> [MediaSummary] {
+    public func fetchUpcomingMovies() async throws -> [MediaSummary] {
         cinematicURL = .upcomingMovies
         
         // Get url or throw url error.

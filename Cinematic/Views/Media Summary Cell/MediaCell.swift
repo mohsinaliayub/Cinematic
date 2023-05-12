@@ -7,6 +7,7 @@
 
 import UIKit
 import SDWebImage
+import CinematicAPI
 
 class MediaCell: UICollectionViewCell {
     @IBOutlet private weak var mediaNameLabel: UILabel!
@@ -20,8 +21,6 @@ class MediaCell: UICollectionViewCell {
     public var posterImage: UIImage? {
         posterImageView.image
     }
-    
-    private let imageDownloader: ImageDownloader = CinematicImageDownloader()
     
     func display(mediaSummary: MediaSummary) {
         mediaNameLabel.text = mediaSummary.label

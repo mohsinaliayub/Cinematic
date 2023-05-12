@@ -1,13 +1,13 @@
 //
 //  Movie.swift
-//  Cinematic
+//  CinematicAPI
 //
-//  Created by Mohsin Ali Ayub on 10.02.23.
+//  Created by Mohsin Ali Ayub on 12.05.23.
 //
 
 import Foundation
 
-struct Movie: Decodable {
+public struct Movie: Decodable {
     let id: Int
     let title: String
     let overview: String

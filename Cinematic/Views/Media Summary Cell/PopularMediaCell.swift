@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CinematicAPI
 import SDWebImage
 
 class PopularMediaCell: UICollectionViewCell {

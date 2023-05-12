@@ -1,20 +1,20 @@
 //
 //  Constants.swift
-//  Cinematic
+//  CinematicAPI
 //
-//  Created by Mohsin Ali Ayub on 10.02.23.
+//  Created by Mohsin Ali Ayub on 12.05.23.
 //
 
 import UIKit
 
-enum Constants {
-    enum APIConstants {
+public enum Constants {
+    public enum APIConstants {
         /// Cinematic API Key (v3).
-        static let apiKey = ""
+        public static let apiKey = ""
         /// Base URL for all the queries against The Movie DB API, except for images.
-        static let baseURL = "https://api.themoviedb.org/3"
+        public static let baseURL = "https://api.themoviedb.org/3"
         /// Base URL for image requests.
-        static let baseURLForImages = "https://image.tmdb.org/t/p/original"
+        public static let baseURLForImages = "https://image.tmdb.org/t/p/original"
     }
     
     enum Colors {

@@ -1,8 +1,8 @@
 //
 //  MediaResult.swift
-//  Cinematic
+//  CinematicAPI
 //
-//  Created by Mohsin Ali Ayub on 10.02.23.
+//  Created by Mohsin Ali Ayub on 12.05.23.
 //
 
 import Foundation
