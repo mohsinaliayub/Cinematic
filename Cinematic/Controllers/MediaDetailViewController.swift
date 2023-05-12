@@ -30,7 +30,6 @@ class MediaDetailViewController: UIViewController {
         super.viewDidLoad()
 
         self.navigationController?.navigationBar.isHidden = true
-        self.tabBarController?.tabBar.isHidden = true
         
         guard let id = mediaID, let type = mediaType, mediaType == .movie else { return }
         
