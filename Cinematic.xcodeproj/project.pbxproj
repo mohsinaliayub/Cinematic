@@ -23,6 +23,8 @@
 		68CBE9532A0E412200F4AC2E /* CinematicAPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 68CBE9512A0E412200F4AC2E /* CinematicAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		68CBE97F2A0E4A7000F4AC2E /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68CBE97E2A0E4A7000F4AC2E /* Section.swift */; };
 		68CBE9812A0E4B1200F4AC2E /* MediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68CBE9802A0E4B1200F4AC2E /* MediaItem.swift */; };
+		68CBE9852A0F8AC700F4AC2E /* MediaDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68CBE9832A0F8AC700F4AC2E /* MediaDetailCell.swift */; };
+		68CBE9862A0F8AC700F4AC2E /* MediaDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68CBE9842A0F8AC700F4AC2E /* MediaDetailCell.xib */; };
 		68EC996029FA692F002C1B7D /* MediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EC995F29FA692F002C1B7D /* MediaCell.swift */; };
 		68EC996229FA6C12002C1B7D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EC996129FA6C12002C1B7D /* HomeViewController.swift */; };
 		68EC996429FA9539002C1B7D /* MediaDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68EC996329FA9539002C1B7D /* MediaDetailViewController.swift */; };
@@ -63,6 +65,8 @@
 		68CBE9512A0E412200F4AC2E /* CinematicAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CinematicAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		68CBE97E2A0E4A7000F4AC2E /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		68CBE9802A0E4B1200F4AC2E /* MediaItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaItem.swift; sourceTree = "<group>"; };
+		68CBE9832A0F8AC700F4AC2E /* MediaDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailCell.swift; sourceTree = "<group>"; };
+		68CBE9842A0F8AC700F4AC2E /* MediaDetailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MediaDetailCell.xib; sourceTree = "<group>"; };
 		68EC995F29FA692F002C1B7D /* MediaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaCell.swift; sourceTree = "<group>"; };
 		68EC996129FA6C12002C1B7D /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		68EC996329FA9539002C1B7D /* MediaDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailViewController.swift; sourceTree = "<group>"; };
@@ -115,6 +119,7 @@
 		68195C4728E1883A007350A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				68CBE9822A0F8A5E00F4AC2E /* Detail */,
 				68BD273D29F7D4C30036FF53 /* Media Summary Cell */,
 				68ABD45629F7B9DF00969DE4 /* Search View */,
 				68195C3828E1661A007350A3 /* Main.storyboard */,
@@ -191,6 +196,15 @@
 			path = Section;
 			sourceTree = "<group>";
 		};
+		68CBE9822A0F8A5E00F4AC2E /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				68CBE9832A0F8AC700F4AC2E /* MediaDetailCell.swift */,
+				68CBE9842A0F8AC700F4AC2E /* MediaDetailCell.xib */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -263,6 +277,7 @@
 				68195C3C28E1661C007350A3 /* Assets.xcassets in Resources */,
 				689769152A091B730045C667 /* PopularMediaCell.xib in Resources */,
 				68195C3A28E1661A007350A3 /* Main.storyboard in Resources */,
+				68CBE9862A0F8AC700F4AC2E /* MediaDetailCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +294,7 @@
 				68EC996229FA6C12002C1B7D /* HomeViewController.swift in Sources */,
 				68ABD45829F7BA0600969DE4 /* SearchAndFilterCell.swift in Sources */,
 				68CBE9812A0E4B1200F4AC2E /* MediaItem.swift in Sources */,
+				68CBE9852A0F8AC700F4AC2E /* MediaDetailCell.swift in Sources */,
 				68CBE97F2A0E4A7000F4AC2E /* Section.swift in Sources */,
 				68EC996029FA692F002C1B7D /* MediaCell.swift in Sources */,
 				68EC99702A00FB46002C1B7D /* SectionHeaderView.swift in Sources */,

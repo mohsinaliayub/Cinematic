@@ -55,3 +55,15 @@ public struct Movie: Decodable {
         case id, title, overview, status, genres, adult, credits
     }
 }
+
+extension Movie: Hashable {
+    public static func == (lhs: Movie, rhs: Movie) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    
+}
