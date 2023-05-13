@@ -13,7 +13,6 @@ class MediaDetailCell: UICollectionViewCell {
     // Outlets
     @IBOutlet private weak var backdropImageView: UIImageView!
     @IBOutlet private weak var posterImageView: UIImageView!
-    @IBOutlet private weak var backButton: UIButton!
     @IBOutlet private weak var playTrailerButton: UIButton!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var genreLabel: UILabel!
