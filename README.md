@@ -33,5 +33,5 @@ The progress history of tasks being performed for the application:
 - [ ] Add animations and transitions.
 
 # Screenshots
-<img src="/Screenshots/Home.png" width="231" height="500" alt="Home"> <img src="/Screenshots/MovieDetail.png" width="231" height="500" alt="Movie Details">
+<img src="/Screenshots/Home.png" width="231" height="500" alt="Home"> <img src="/Screenshots/MovieDetail1.png" width="231" height="500" alt="Movie Details"> <img src="/Screenshots/MovieDetail2.png" width="231" height="500" alt="Cast and Recommendations">
 
