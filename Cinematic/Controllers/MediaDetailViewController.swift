@@ -29,6 +29,7 @@ class MediaDetailViewController: UIViewController {
         static let detailCell = "MediaDetailCell"
         static let castCell = "CastCell"
         static let sectionHeader = "SectionHeaderView"
+        static let mediaCell = "MediaCell"
     }
     
     // Outlets
@@ -54,12 +55,7 @@ class MediaDetailViewController: UIViewController {
         return button
     }()
     
-    private var movie: Movie? {
-        didSet {
-            guard movie != nil else { return }
-            collectionView.reloadData()
-        }
-    }
+    private var movie: Movie?
     private var cast: [Cast] {
         guard let movie = movie else { return [] }
         
@@ -90,18 +86,21 @@ class MediaDetailViewController: UIViewController {
     private func fetchMedia(by id: MovieID, and type: MediaType) {
         Task.detached {
             do {
-                let movie = try await self.movieService.fetchMovieDetails(for: .movie, by: id)
-                await self.setMovieDetails(movie)
+                async let movieAsync = try await self.movieService.fetchMovieDetails(for: .movie, by: id)
+                async let recommendationsAsync = try await self.movieService.fetchRecommendations(for: id)
+                
+                let (movie, recommendations) = try await (movieAsync, recommendationsAsync)
+                await self.showDetails(for: movie, and: recommendations)
             } catch {
                 print(error)
             }
         }
     }
     
-    private func setMovieDetails(_ movie: Movie) {
+    private func showDetails(for movie: Movie, and recommendations: [MediaSummary]) {
         self.movie = movie
-        
-        
+        self.recommendations = Array(recommendations.prefix(6))
+        collectionView.reloadData()
     }
 
     @objc private func dismissController() {
@@ -119,10 +118,12 @@ extension MediaDetailViewController {
             
             let layoutSection: NSCollectionLayoutSection
             switch section {
-            case .detail, .recommendations:
+            case .detail:
                 layoutSection = self.mediaDetailCellSection
             case .cast:
                 layoutSection = self.castCellSection
+            case .recommendations:
+                layoutSection = LayoutSectionHelper.smallImageViewItemSection(withScrollingBehavior: .none)
             }
             
             guard section != .detail else { return layoutSection }
@@ -189,6 +190,9 @@ extension MediaDetailViewController: UICollectionViewDataSource {
         nib = UINib(nibName: Constants.castCell, bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: Constants.castCell)
         
+        nib = UINib(nibName: Constants.mediaCell, bundle: nil)
+        collectionView.register(nib, forCellWithReuseIdentifier: Constants.mediaCell)
+        
         // register header view
         nib = UINib(nibName: Constants.sectionHeader, bundle: nil)
         collectionView
@@ -213,7 +217,7 @@ extension MediaDetailViewController: UICollectionViewDataSource {
         guard let movie = movie else { return collectionView.dequeueReusableCell(withReuseIdentifier: "empty", for: indexPath) }
         
         switch section {
-        case .detail, .recommendations:
+        case .detail:
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: Constants.detailCell,
                                      for: indexPath) as! MediaDetailCell
@@ -224,6 +228,11 @@ extension MediaDetailViewController: UICollectionViewDataSource {
                 .dequeueReusableCell(withReuseIdentifier: Constants.castCell,
                                      for: indexPath) as! CastCell
             cell.showCastDetails(cast[indexPath.row])
+            return cell
+        case .recommendations:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.mediaCell, for: indexPath) as! MediaCell
+            
+            cell.display(mediaSummary: recommendations[indexPath.row])
             return cell
         }
         
@@ -237,7 +246,7 @@ extension MediaDetailViewController: UICollectionViewDataSource {
                                               for: indexPath) as! SectionHeaderView
         let section = Section(rawValue: indexPath.section)!
         headerView.set(label: section.label)
-        headerView.isHidden = section == .detail
+        headerView.isHidden = section == .detail || recommendations.isEmpty
         return headerView
     }
 }

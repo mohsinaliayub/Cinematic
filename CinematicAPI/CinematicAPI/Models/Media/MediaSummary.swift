@@ -67,11 +67,17 @@ extension MediaSummary: Decodable {
         overview = try container.decode(String.self, forKey: .overview)
         mediaType = try container.decodeIfPresent(MediaType.self, forKey: .mediaType) ?? .movie
         genreIds = try container.decodeIfPresent([Int].self, forKey: .genreIds) ?? []
-        let backdropImage = try container.decode(String.self, forKey: .backdropURL)
-        let posterImage = try container.decode(String.self, forKey: .posterURL)
+        if let backdropImage = try container.decodeIfPresent(String.self, forKey: .backdropURL) {
+            backdropURL = URL(string: Constants.APIConstants.baseURLForImages + backdropImage)
+        } else {
+            backdropURL = nil
+        }
+        if let posterImage = try container.decodeIfPresent(String.self, forKey: .posterURL) {
+            posterURL = URL(string: Constants.APIConstants.baseURLForImages + posterImage)
+        } else {
+            posterURL = nil
+        }
         
-        backdropURL = URL(string: Constants.APIConstants.baseURLForImages + backdropImage)
-        posterURL = URL(string: Constants.APIConstants.baseURLForImages + posterImage)
         if let releaseDateString = try container.decodeIfPresent(String.self, forKey: .releaseDate) {
             releaseDate = shortDateFormatter.date(from: releaseDateString)
         } else {

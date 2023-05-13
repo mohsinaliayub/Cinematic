@@ -8,12 +8,13 @@
 import Foundation
 
 public protocol MovieFetcher {
+    typealias MediaWithPageToQuery = (pageToQueryNext: Int?, mediaSummaries: [MediaSummary])
     
     /// The URL holder for TMDB API.
     var cinematicURL: CinematicURL? { get set}
     
     /// Fetch weekly trending media type from TMDB API.
-    func fetchTrending(mediaType: MediaType, fromPage: Int?) async throws -> (pageToQueryNext: Int?, medias: [MediaSummary])
+    func fetchTrending(mediaType: MediaType, fromPage: Int?) async throws -> MediaWithPageToQuery
     
     /// Fetch movie details from TMDB API.
     func fetchMovieDetails(for: MediaType, by: MovieID) async throws -> Movie
@@ -22,33 +23,22 @@ public protocol MovieFetcher {
     func fetchPopularMovies() async throws -> [MediaSummary]
     
     func fetchUpcomingMovies() async throws -> [MediaSummary]
+    
+    func fetchRecommendations(for: MovieID) async throws -> [MediaSummary]
 }
 
 public class CinematicMovieService: MovieFetcher {
-    typealias MovieID = String
-    
-    public var trendingMovies: [MediaSummary]
-    
     public var cinematicURL: CinematicURL?
     
     public init() {
-        trendingMovies = []
+        
     }
     
-    public func fetchTrending(mediaType: MediaType, fromPage pageToQueryNext: Int?) async throws -> (pageToQueryNext: Int?, medias: [MediaSummary]) {
+    public func fetchTrending(mediaType: MediaType, fromPage pageToQueryNext: Int?) async throws -> MediaWithPageToQuery {
         cinematicURL = .trending(mediaType: mediaType, page: pageToQueryNext)
         
-        // Get url or throw url error.
-        guard let url = cinematicURL?.url else {
-            throw NetworkRequestError.urlError
-        }
-        
-        let (data, response) = try await URLSession.shared.data(from: url)
-        _ = try responseIsSuccessful(response)
-        
-        let mediaResult = try JSONDecoder().decode(MediaResult.self, from: data)
-        
-        return (mediaResult.page + 1, mediaResult.results)
+        let mediaWithPageToQuery = try await fetchMediaResult(from: cinematicURL?.url)
+        return mediaWithPageToQuery
     }
     
     public func fetchMovieDetails(for mediaType: MediaType, by id: Int) async throws -> Movie {
@@ -65,33 +55,33 @@ public class CinematicMovieService: MovieFetcher {
     public func fetchPopularMovies() async throws -> [MediaSummary] {
         cinematicURL = .popular
         
-        // Get url or throw url error.
-        guard let url = cinematicURL?.url else {
-            throw NetworkRequestError.urlError
-        }
-        
-        let (data, response) = try await URLSession.shared.data(from: url)
-        _ = try responseIsSuccessful(response)
-        
-        let mediaResult = try JSONDecoder().decode(MediaResult.self, from: data)
-        
-        return mediaResult.results
+        let mediaWithPageToQuery = try await fetchMediaResult(from: cinematicURL?.url)
+        return mediaWithPageToQuery.mediaSummaries
     }
     
     public func fetchUpcomingMovies() async throws -> [MediaSummary] {
         cinematicURL = .upcomingMovies
         
+        let mediaWithPageToQuery = try await fetchMediaResult(from: cinematicURL?.url)
+        return mediaWithPageToQuery.mediaSummaries
+    }
+    
+    public func fetchRecommendations(for id: MovieID) async throws -> [MediaSummary] {
+        cinematicURL = .movieRecommendations(for: id)
+        
+        let (_, mediaSummaries) = try await fetchMediaResult(from: cinematicURL?.url)
+        return mediaSummaries
+    }
+    
+    private func fetchMediaResult(from url: URL?) async throws -> MediaWithPageToQuery {
         // Get url or throw url error.
-        guard let url = cinematicURL?.url else {
-            throw NetworkRequestError.urlError
-        }
+        guard let url = url else { throw NetworkRequestError.urlError }
         
         let (data, response) = try await URLSession.shared.data(from: url)
         _ = try responseIsSuccessful(response)
         
         let mediaResult = try JSONDecoder().decode(MediaResult.self, from: data)
-        
-        return mediaResult.results
+        return (mediaResult.page + 1, mediaResult.results)
     }
     
     private func url(_ url: URL?) throws -> URL {

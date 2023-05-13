@@ -187,7 +187,7 @@ extension HomeViewController {
             let layoutSection: NSCollectionLayoutSection
             switch section.id {
             case .trendingTVShows, .upcomingMovies:
-                layoutSection = self.smallImageTitleAndGenreSection
+                layoutSection = LayoutSectionHelper.smallImageViewItemSection(withScrollingBehavior: .continuous)
             case .popular:
                 layoutSection = self.wideImageTitleAndGenreSection
             }
@@ -222,22 +222,6 @@ extension HomeViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPaging
-        
-        return section
-    }
-    
-    private var smallImageTitleAndGenreSection: NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 5, bottom: 2, trailing: 5)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(120),
-                                               heightDimension: .absolute(160))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
         
         return section
     }
