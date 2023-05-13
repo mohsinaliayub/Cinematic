@@ -14,11 +14,21 @@ class MediaDetailViewController: UIViewController {
         case cast
         case recommendations
         
+        var label: String {
+            switch self {
+            case .detail: return ""
+            case .cast: return "Cast"
+            case .recommendations: return "Recommendations"
+            }
+        }
+        
         static var numberOfSections: Int { return 3 }
     }
     
     private enum Constants {
         static let detailCell = "MediaDetailCell"
+        static let castCell = "CastCell"
+        static let sectionHeader = "SectionHeaderView"
     }
     
     // Outlets
@@ -49,6 +59,11 @@ class MediaDetailViewController: UIViewController {
             guard movie != nil else { return }
             collectionView.reloadData()
         }
+    }
+    private var cast: [Cast] {
+        guard let movie = movie else { return [] }
+        
+        return movie.cast.count > 10 ? Array(movie.cast.prefix(10)) : movie.cast
     }
     private var recommendations: [MediaSummary] = []
     public var mediaID: Int?
@@ -104,9 +119,23 @@ extension MediaDetailViewController {
             
             let layoutSection: NSCollectionLayoutSection
             switch section {
-            case .detail, .cast, .recommendations:
+            case .detail, .recommendations:
                 layoutSection = self.mediaDetailCellSection
+            case .cast:
+                layoutSection = self.castCellSection
             }
+            
+            guard section != .detail else { return layoutSection }
+            
+            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                    heightDimension: .estimated(44.0))
+            let header = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top)
+            layoutSection.boundarySupplementaryItems = [header]
+            layoutSection.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16,
+                                                                  bottom: 4, trailing: 0)
             
             return layoutSection
         }
@@ -126,6 +155,25 @@ extension MediaDetailViewController {
         let section = NSCollectionLayoutSection(group: group)
         return section
     }
+    
+    private var castCellSection: NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .estimated(120))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(80),
+                                               heightDimension: .estimated(120))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        group.edgeSpacing = NSCollectionLayoutEdgeSpacing(
+            leading: .fixed(0),
+            top: .fixed(0),
+            trailing: .fixed(12),
+            bottom: .fixed(8))
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        
+        return section
+    }
 }
 
 // MARK: - Collection View Data Source
@@ -133,10 +181,19 @@ extension MediaDetailViewController {
 extension MediaDetailViewController: UICollectionViewDataSource {
     
     private func registerCellsAndSupplementaryViews() {
-        let nib = UINib(nibName: Constants.detailCell, bundle: nil)
+        var nib = UINib(nibName: Constants.detailCell, bundle: nil)
         collectionView.register(nib, forCellWithReuseIdentifier: Constants.detailCell)
         
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "empty")
+        
+        nib = UINib(nibName: Constants.castCell, bundle: nil)
+        collectionView.register(nib, forCellWithReuseIdentifier: Constants.castCell)
+        
+        // register header view
+        nib = UINib(nibName: Constants.sectionHeader, bundle: nil)
+        collectionView
+            .register(nib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                      withReuseIdentifier: Constants.sectionHeader)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -147,7 +204,8 @@ extension MediaDetailViewController: UICollectionViewDataSource {
         // for 1st section, only return 1 item for media/tv details
         if section == 0 { return 1 }
         
-        return 0 // right now, not implementing any other section
+        // TODO: implement for both movie and tv media type
+        return section == 1 ? cast.count : recommendations.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -155,13 +213,31 @@ extension MediaDetailViewController: UICollectionViewDataSource {
         guard let movie = movie else { return collectionView.dequeueReusableCell(withReuseIdentifier: "empty", for: indexPath) }
         
         switch section {
-        case .detail, .cast, .recommendations:
+        case .detail, .recommendations:
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: Constants.detailCell,
                                      for: indexPath) as! MediaDetailCell
             cell.setMovieDetails(movie)
             return cell
+        case .cast:
+            let cell = collectionView
+                .dequeueReusableCell(withReuseIdentifier: Constants.castCell,
+                                     for: indexPath) as! CastCell
+            cell.showCastDetails(cast[indexPath.row])
+            return cell
         }
         
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        let headerView = collectionView
+            .dequeueReusableSupplementaryView(ofKind: kind,
+                                              withReuseIdentifier: Constants.sectionHeader,
+                                              for: indexPath) as! SectionHeaderView
+        let section = Section(rawValue: indexPath.section)!
+        headerView.set(label: section.label)
+        headerView.isHidden = section == .detail
+        return headerView
     }
 }

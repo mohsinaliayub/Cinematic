@@ -7,17 +7,17 @@
 
 import Foundation
 
-struct Cast: Identifiable {
+public struct Cast: Identifiable {
     /// A unique person ID.
-    let id: Int
+    public let id: Int
     /// The original name the person is known by in the world of media.
-    let name: String
+    public let name: String
     /// URL of the profile photo
-    let photoURL: URL?
+    public let photoURL: URL?
     /// The character portrayed in the movie or tv.
-    let character: String
+    public let character: String
     /// The kind of work performed by the cast member.
-    let workDepartment: ProductionDepartment?
+    public let workDepartment: ProductionDepartment?
     /// The order of appearance.
     let order: Int
     
@@ -29,7 +29,7 @@ struct Cast: Identifiable {
 }
 
 extension Cast: Decodable {
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         id = try container.decode(Int.self, forKey: .id)
@@ -46,9 +46,15 @@ extension Cast: Decodable {
     }
 }
 
+extension Cast: Comparable {
+    public static func < (lhs: Cast, rhs: Cast) -> Bool {
+        lhs.order < rhs.order
+    }
+}
+
 
 /// The work the person did in production of the movie or tv.
-enum ProductionDepartment: String, Codable {
+public enum ProductionDepartment: String, Codable {
     case acting = "Acting"
     case directing = "Directing"
 }

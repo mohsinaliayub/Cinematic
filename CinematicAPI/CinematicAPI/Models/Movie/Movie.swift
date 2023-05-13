@@ -20,7 +20,10 @@ public struct Movie: Decodable {
     private let releaseDateString: String
     public let runtimeInMinutes: Int
     public let rating: Double
-    let credits: Credits
+    private let credits: Credits
+    
+    public var cast: [Cast] { credits.cast.sorted() }
+    var crew: [Crew] { credits.crew }
     
     public var backdropPathURL: URL? {
         URL(string: Constants.APIConstants.baseURLForImages + backdropPath)

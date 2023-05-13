@@ -198,6 +198,7 @@ extension HomeViewController {
                 layoutSize: headerSize,
                 elementKind: UICollectionView.elementKindSectionHeader,
                 alignment: .top)
+            header.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 0)
             layoutSection.boundarySupplementaryItems = [header]
             layoutSection.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16,
                                                                   bottom: 8, trailing: 0)
